@@ -10,6 +10,8 @@ class StringRouterUtil {
   static const String addRequestScreenRoute = '/add-request-route';
   static const String addRequestListScreenRoute = '/add-request-list-route';
   static const String addRequestDetailScreenRoute = '/add-request-detail-route';
+  static const String addRequesteDetailFormScreenRoute =
+      '/add-request-detail-form-route';
   static const String assetOpnameScreenRoute = '/asset-opname-route';
   static const String assetOpnameDetailScreenRoute =
       '/asset-opname-detail-route';

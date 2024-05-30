@@ -22,6 +22,10 @@ class _DropDownScreenState extends State<DropDownScreen> {
     'Sale - Internal'
   ];
 
+  List<String> request = ['Sell', 'Register', 'Disposal', 'Maintenance'];
+  List<String> reason = ['Broken'];
+  List<String> type = ['Maintenance 5000km'];
+
   List<String> status = ['Available - Used'];
 
   @override
@@ -103,7 +107,13 @@ class _DropDownScreenState extends State<DropDownScreen> {
                     ? location.length
                     : widget.title == 'Condition'
                         ? condition.length
-                        : status.length,
+                        : widget.title == 'Request'
+                            ? request.length
+                            : widget.title == 'Reason'
+                                ? reason.length
+                                : widget.title == 'Type of Service'
+                                    ? type.length
+                                    : status.length,
                 padding: const EdgeInsets.only(
                     left: 24.0, right: 24.0, bottom: 16, top: 16),
                 shrinkWrap: true,
@@ -116,14 +126,26 @@ class _DropDownScreenState extends State<DropDownScreen> {
                               ? location[index]
                               : widget.title == 'Condition'
                                   ? condition[index]
-                                  : status[index]);
+                                  : widget.title == 'Request'
+                                      ? request[index]
+                                      : widget.title == 'Reason'
+                                          ? reason[index]
+                                          : widget.title == 'Type of Service'
+                                              ? type[index]
+                                              : status[index]);
                     },
                     child: Text(
                       widget.title == 'Location'
                           ? location[index]
                           : widget.title == 'Condition'
                               ? condition[index]
-                              : status[index],
+                              : widget.title == 'Request'
+                                  ? request[index]
+                                  : widget.title == 'Reason'
+                                      ? reason[index]
+                                      : widget.title == 'Type of Service'
+                                          ? type[index]
+                                          : status[index],
                       style: const TextStyle(
                           fontSize: 20,
                           color: Colors.white,

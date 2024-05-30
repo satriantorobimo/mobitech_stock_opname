@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_stock_opname/utility/string_router_util.dart';
 
@@ -21,7 +22,9 @@ class _AdditionalRequestListScreenState
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, StringRouterUtil.addRequestScreenRoute);
+        },
       ),
       backgroundColor: Color(0xFF130139),
       body: Column(
@@ -278,22 +281,35 @@ class _AdditionalRequestListScreenState
                                 color: Color(0xFF3B3B3B),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(8))),
-                            child: Icon(
-                              Icons.task_outlined,
-                              color: Colors.white38,
-                              size: 34,
-                            )),
+                            child: (index % 2 == 0)
+                                ? Icon(
+                                    Icons.task,
+                                    color: Colors.white38,
+                                    size: 34,
+                                  )
+                                : SvgPicture.asset(
+                                    'assets/icons/file.svg',
+                                    color: Colors.white38,
+                                    height: 34,
+                                    width: 34,
+                                  )),
                         SizedBox(width: 16),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Asset Code - Asset Name',
+                            Text('Request No',
                                 style: TextStyle(
                                     fontFamily:
                                         GoogleFonts.poppins().fontFamily,
                                     fontSize: 15,
                                     color: Colors.white)),
-                            Text('Location : Jagakarsa',
+                            Text('Asset  Code   : ..........',
+                                style: TextStyle(
+                                    fontFamily:
+                                        GoogleFonts.poppins().fontFamily,
+                                    fontSize: 13,
+                                    color: Color(0xFFBFBFBF))),
+                            Text('Request type : ..........',
                                 style: TextStyle(
                                     fontFamily:
                                         GoogleFonts.poppins().fontFamily,
@@ -305,8 +321,9 @@ class _AdditionalRequestListScreenState
                     ),
                     GestureDetector(
                       onTap: () async {
-                        Navigator.pushNamed(
-                            context, StringRouterUtil.assetOpnameScreenRoute);
+                        Navigator.pushNamed(context,
+                            StringRouterUtil.addRequestDetailScreenRoute,
+                            arguments: (index % 2 == 0) ? true : false);
                       },
                       child: Container(
                         decoration: const BoxDecoration(

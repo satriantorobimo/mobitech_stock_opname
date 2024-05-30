@@ -5,7 +5,8 @@ import 'package:mobile_stock_opname/utility/string_router_util.dart';
 import 'package:provider/provider.dart';
 
 class AdditionalRequestDetailScreen extends StatefulWidget {
-  const AdditionalRequestDetailScreen({super.key});
+  const AdditionalRequestDetailScreen({super.key, required this.isInput});
+  final bool isInput;
 
   @override
   State<AdditionalRequestDetailScreen> createState() =>
@@ -21,6 +22,20 @@ class _AdditionalRequestDetailScreenState
   TextEditingController _warrantyCtrl = TextEditingController();
   TextEditingController _merchantRoutineCtrl = TextEditingController();
   TextEditingController _assetLocationCtrl = TextEditingController();
+
+  @override
+  void initState() {
+    setState(() {
+      _assetCodeCtrl.text = 'PRINTER EPSON L-5290';
+      _purchaseDateCtrl.text = '03/01/2024';
+      _vendorCtrl.text = 'Astra International,Pt, Tbk (Hso Sumsel)';
+      _picCtrl.text = 'VIVI NADIANI SAFITRI';
+      _warrantyCtrl.text = 'Life Time';
+      _merchantRoutineCtrl.text = 'Yes - Monthly';
+      _assetLocationCtrl.text = 'Head Office';
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,6 +103,7 @@ class _AdditionalRequestDetailScreenState
               ),
               TextFormField(
                 controller: _assetCodeCtrl,
+                readOnly: true,
                 style: const TextStyle(color: Colors.white),
                 keyboardType: TextInputType.text,
                 decoration: const InputDecoration(
@@ -116,6 +132,7 @@ class _AdditionalRequestDetailScreenState
               ),
               TextFormField(
                 controller: _purchaseDateCtrl,
+                readOnly: true,
                 style: const TextStyle(color: Colors.white),
                 keyboardType: TextInputType.text,
                 decoration: const InputDecoration(
@@ -144,6 +161,7 @@ class _AdditionalRequestDetailScreenState
               ),
               TextFormField(
                 controller: _vendorCtrl,
+                readOnly: true,
                 style: const TextStyle(color: Colors.white),
                 keyboardType: TextInputType.text,
                 decoration: const InputDecoration(
@@ -172,6 +190,7 @@ class _AdditionalRequestDetailScreenState
               ),
               TextFormField(
                 controller: _picCtrl,
+                readOnly: true,
                 style: const TextStyle(color: Colors.white),
                 keyboardType: TextInputType.text,
                 decoration: const InputDecoration(
@@ -200,6 +219,7 @@ class _AdditionalRequestDetailScreenState
               ),
               TextFormField(
                 controller: _warrantyCtrl,
+                readOnly: true,
                 style: const TextStyle(color: Colors.white),
                 keyboardType: TextInputType.text,
                 decoration: const InputDecoration(
@@ -228,6 +248,7 @@ class _AdditionalRequestDetailScreenState
               ),
               TextFormField(
                 controller: _merchantRoutineCtrl,
+                readOnly: true,
                 style: const TextStyle(color: Colors.white),
                 keyboardType: TextInputType.text,
                 decoration: const InputDecoration(
@@ -258,6 +279,7 @@ class _AdditionalRequestDetailScreenState
                 children: [
                   TextFormField(
                     controller: _assetLocationCtrl,
+                    readOnly: true,
                     style: const TextStyle(color: Colors.white),
                     keyboardType: TextInputType.text,
                     decoration: const InputDecoration(
@@ -288,45 +310,44 @@ class _AdditionalRequestDetailScreenState
               const SizedBox(
                 height: 24,
               ),
-              InkWell(
-                onTap: () {
-                  var bottomBarProvider =
-                      Provider.of<NavbarProvider>(context, listen: false);
-                  bottomBarProvider.setPage(1);
-                  bottomBarProvider.setTab(1);
-                  Navigator.pushNamedAndRemoveUntil(context,
-                      StringRouterUtil.navbarScreenRoute, (route) => false);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 32.0, right: 32.0),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * 0.6,
-                    height: 66,
-                    decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                          colors: [Color(0xFF5DE0E6), Color(0xFF004AAD)],
-                          begin: FractionalOffset(0.0, 0.0),
-                          end: FractionalOffset(1.0, 0.0),
-                          stops: [0.0, 1.0],
-                          tileMode: TileMode.clamp),
-                      borderRadius: BorderRadius.circular(28),
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Text('Confirm',
-                            style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600)),
-                        SizedBox(width: 4),
-                        Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          color: Colors.white,
-                          size: 20,
-                        )
-                      ],
+              Visibility(
+                visible: !widget.isInput,
+                child: InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context,
+                        StringRouterUtil.addRequesteDetailFormScreenRoute);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 32.0, right: 32.0),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.6,
+                      height: 66,
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                            colors: [Color(0xFF5DE0E6), Color(0xFF004AAD)],
+                            begin: FractionalOffset(0.0, 0.0),
+                            end: FractionalOffset(1.0, 0.0),
+                            stops: [0.0, 1.0],
+                            tileMode: TileMode.clamp),
+                        borderRadius: BorderRadius.circular(28),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Text('Next',
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600)),
+                          SizedBox(width: 4),
+                          Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            color: Colors.white,
+                            size: 20,
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),

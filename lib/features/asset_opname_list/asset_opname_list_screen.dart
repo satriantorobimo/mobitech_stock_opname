@@ -17,7 +17,7 @@ class AssetOpnameListScreen extends StatelessWidget {
                 top: MediaQuery.of(context).size.height * 0.06,
                 left: 16.0,
                 right: 16.0),
-            child: Text('Asset Opaname List',
+            child: Text('Asset Opname List',
                 style: TextStyle(
                     fontFamily: GoogleFonts.poppins().fontFamily,
                     fontSize: 20,
@@ -228,8 +228,8 @@ class AssetOpnameListScreen extends StatelessWidget {
                         SizedBox(height: 8),
                         GestureDetector(
                           onTap: () {
-                            Navigator.pushNamed(context,
-                                StringRouterUtil.addRequestScreenRoute);
+                            // Navigator.pushNamed(context,
+                            //     StringRouterUtil.addRequestScreenRoute);
                           },
                           child: Center(
                             child: Icon(
@@ -344,7 +344,7 @@ class AssetOpnameListScreen extends StatelessWidget {
                                           fontSize: 12,
                                           color: Colors.white)),
                                 ),
-                                Text(': PT ABC',
+                                Text(': PT DEF',
                                     style: TextStyle(
                                         fontFamily:
                                             GoogleFonts.poppins().fontFamily,

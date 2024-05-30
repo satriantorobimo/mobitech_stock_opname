@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mobile_stock_opname/utility/general_util.dart';
 import 'package:mobile_stock_opname/utility/string_router_util.dart';
 
 class AdditionalRequestScreen extends StatefulWidget {
@@ -103,9 +104,10 @@ class _AdditionalRequestScreenState extends State<AdditionalRequestScreen> {
                         setState(() {
                           _assetCodeCtrl.text = val.toString();
                         });
+                        GeneralUtil().showSnackBarSuccess(
+                            context, 'Berhasil Scan Barang');
                         Future.delayed(const Duration(seconds: 2), () {
-                          Navigator.pushNamed(context,
-                              StringRouterUtil.addRequestDetailScreenRoute);
+                          _assetCodeCtrl.clear();
                         });
                       });
                     },

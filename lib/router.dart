@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_stock_opname/features/about_us/about_us_screen.dart';
 import 'package:mobile_stock_opname/features/additional_request/additional_request_screen.dart';
 import 'package:mobile_stock_opname/features/additional_request_detail/additional_request_detail_screen.dart';
+import 'package:mobile_stock_opname/features/additional_request_detail_form/additional_request_detail_form_screen.dart';
 import 'package:mobile_stock_opname/features/additional_request_list/additional_request_list_screen.dart';
 import 'package:mobile_stock_opname/features/asset_opname/asset_opname_screen.dart';
 import 'package:mobile_stock_opname/features/asset_opname_detail/asset_opname_detail_screen.dart';
@@ -60,8 +61,10 @@ class Routers {
                 FadeTransition(opacity: a, child: c));
 
       case StringRouterUtil.addRequestDetailScreenRoute:
+        final bool isInput = settings.arguments as bool;
         return PageRouteBuilder<dynamic>(
-            pageBuilder: (_, __, ___) => const AdditionalRequestDetailScreen(),
+            pageBuilder: (_, __, ___) =>
+                AdditionalRequestDetailScreen(isInput: isInput),
             settings: RouteSettings(name: settings.name),
             transitionsBuilder: (_, Animation<double> a, __, Widget c) =>
                 FadeTransition(opacity: a, child: c));
@@ -151,9 +154,18 @@ class Routers {
             settings: RouteSettings(name: settings.name),
             transitionsBuilder: (_, Animation<double> a, __, Widget c) =>
                 FadeTransition(opacity: a, child: c));
+
       case StringRouterUtil.assetOpnameDetailFormScreenRoute:
         return PageRouteBuilder<dynamic>(
             pageBuilder: (_, __, ___) => const AssetOpnameDetailFormScreen(),
+            settings: RouteSettings(name: settings.name),
+            transitionsBuilder: (_, Animation<double> a, __, Widget c) =>
+                FadeTransition(opacity: a, child: c));
+
+      case StringRouterUtil.addRequesteDetailFormScreenRoute:
+        return PageRouteBuilder<dynamic>(
+            pageBuilder: (_, __, ___) =>
+                const AdditionalRequestDetailFormScreen(),
             settings: RouteSettings(name: settings.name),
             transitionsBuilder: (_, Animation<double> a, __, Widget c) =>
                 FadeTransition(opacity: a, child: c));
