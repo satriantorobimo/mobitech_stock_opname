@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mobile_stock_opname/features/otp/bloc/resend_bloc/bloc.dart';
+import 'package:mobile_stock_opname/features/otp/bloc/validate_bloc/bloc.dart';
+import 'package:mobile_stock_opname/features/otp/data/otp_validate_request_model.dart';
+import 'package:mobile_stock_opname/features/otp/domain/repo/otp_repo.dart';
+import 'package:mobile_stock_opname/utility/general_util.dart';
 import 'package:mobile_stock_opname/utility/string_router_util.dart';
 import 'package:pinput/pinput.dart';
 
 class OtpScreen extends StatefulWidget {
-  const OtpScreen({super.key});
+  final String email;
+  const OtpScreen({super.key, required this.email});
 
   @override
   State<OtpScreen> createState() => _OtpScreenState();
@@ -12,6 +19,10 @@ class OtpScreen extends StatefulWidget {
 
 class _OtpScreenState extends State<OtpScreen> {
   final _pinPutController = TextEditingController();
+  ValidateOtpBloc validateOtpBloc = ValidateOtpBloc(otpRepo: OtpRepo());
+  ResendOtpBloc resendOtpBloc = ResendOtpBloc(otpRepo: OtpRepo());
+  bool enable = false;
+  bool isLoading = false;
 
   final defaultPinTheme = PinTheme(
     width: 78,
@@ -78,7 +89,18 @@ class _OtpScreenState extends State<OtpScreen> {
                           fontWeight: FontWeight.bold,
                           color: Colors.white)),
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.6,
+                  child: Text(widget.email,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontFamily: GoogleFonts.poppins().fontFamily,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.white)),
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                 Align(
                   alignment: Alignment.center,
                   child: Text(
@@ -100,11 +122,17 @@ class _OtpScreenState extends State<OtpScreen> {
                         AndroidSmsAutofillMethod.smsUserConsentApi,
                     listenForMultipleSmsOnAndroid: true,
                     hapticFeedbackType: HapticFeedbackType.lightImpact,
-                    onCompleted: (String verificationCode) {
-                      // debugPrint('onCompleted: $pin');
-                    },
+                    onCompleted: (String verificationCode) {},
                     onChanged: (code) {
-                      // debugPrint('onChanged: $value');
+                      if (code.length == 4) {
+                        setState(() {
+                          enable = true;
+                        });
+                      } else {
+                        setState(() {
+                          enable = false;
+                        });
+                      }
                     },
                     separator: const SizedBox(width: 16),
                   ),
@@ -123,38 +151,116 @@ class _OtpScreenState extends State<OtpScreen> {
                           fontFamily: GoogleFonts.poppins().fontFamily,
                         ),
                       ),
-                      Text(
-                        'Send Email Again',
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: Colors.white,
-                          fontFamily: GoogleFonts.poppins().fontFamily,
-                        ),
-                      ),
+                      BlocListener(
+                          bloc: resendOtpBloc,
+                          listener: (_, ResendOtpState state) {
+                            if (state is ResendOtpLoading) {}
+                            if (state is ResendOtpLoaded) {
+                              GeneralUtil().showSnackBarSuccess(
+                                  context, 'OTP Sent Successfully');
+                            }
+                            if (state is ResendOtpError) {
+                              GeneralUtil()
+                                  .showSnackBarError(context, state.error!);
+                            }
+                            if (state is ResendOtpException) {
+                              GeneralUtil().showSnackBarError(
+                                  context, 'Terjadi Kesalahan Sistem');
+                            }
+                          },
+                          child: BlocBuilder(
+                              bloc: resendOtpBloc,
+                              builder: (_, ResendOtpState state) {
+                                return InkWell(
+                                  onTap: () {
+                                    resendOtpBloc.add(ResendOtpAttempt(
+                                        userName: widget.email));
+                                  },
+                                  child: Text(
+                                    'Send Email Again',
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      color: Colors.white,
+                                      fontFamily:
+                                          GoogleFonts.poppins().fontFamily,
+                                    ),
+                                  ),
+                                );
+                              })),
                     ],
                   ),
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.12),
-                InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(
-                        context, StringRouterUtil.changePwdScreenRoute);
-                  },
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * 0.6,
-                    height: 66,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFE45A04),
-                      borderRadius: BorderRadius.circular(28),
-                    ),
-                    child: const Center(
-                        child: Text('Submit',
-                            style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600))),
-                  ),
-                )
+                BlocListener(
+                    bloc: validateOtpBloc,
+                    listener: (_, ValidateOtpState state) {
+                      if (state is ValidateOtpLoading) {
+                        setState(() {
+                          isLoading = true;
+                        });
+                      }
+                      if (state is ValidateOtpLoaded) {
+                        Navigator.pushNamed(
+                            context, StringRouterUtil.changePwdScreenRoute,
+                            arguments: widget.email);
+                      }
+                      if (state is ValidateOtpError) {
+                        GeneralUtil().showSnackBarError(context, state.error!);
+                        setState(() {
+                          isLoading = false;
+                        });
+                      }
+                      if (state is ValidateOtpException) {
+                        GeneralUtil().showSnackBarError(
+                            context, 'Terjadi Kesalahan Sistem');
+                        setState(() {
+                          isLoading = false;
+                        });
+                      }
+                    },
+                    child: BlocBuilder(
+                        bloc: validateOtpBloc,
+                        builder: (_, ValidateOtpState state) {
+                          return isLoading
+                              ? const Center(
+                                  child: SizedBox(
+                                    width: 45,
+                                    height: 45,
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                )
+                              : InkWell(
+                                  onTap: enable
+                                      ? () {
+                                          validateOtpBloc
+                                              .add(ValidateOtpAttempt(
+                                            otpValidateRequestModel:
+                                                OtpValidateRequestModel(
+                                                    username: widget.email,
+                                                    otp:
+                                                        _pinPutController.text),
+                                          ));
+                                        }
+                                      : null,
+                                  child: Container(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.6,
+                                    height: 66,
+                                    decoration: BoxDecoration(
+                                      color: enable
+                                          ? const Color(0xFFE45A04)
+                                          : Colors.grey,
+                                      borderRadius: BorderRadius.circular(28),
+                                    ),
+                                    child: const Center(
+                                        child: Text('Submit',
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w600))),
+                                  ),
+                                );
+                        })),
               ],
             ),
           ),

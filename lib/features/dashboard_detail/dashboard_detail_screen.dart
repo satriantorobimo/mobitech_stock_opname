@@ -59,7 +59,7 @@ class DashboardDetailScreen extends StatelessWidget {
                   ),
                   alignment: Alignment.center,
                   child: const Icon(
-                    Icons.person_2_rounded,
+                    Icons.person_rounded,
                     color: Colors.white,
                     size: 32,
                   ),

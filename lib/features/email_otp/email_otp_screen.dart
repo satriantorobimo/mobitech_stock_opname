@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mobile_stock_opname/features/login/bloc/login_bloc/bloc.dart';
-import 'package:mobile_stock_opname/features/login/data/login_request_model.dart';
-import 'package:mobile_stock_opname/features/login/domain/repo/login_repo.dart';
+import 'package:mobile_stock_opname/features/email_otp/bloc/req_change_password_bloc/bloc.dart';
+import 'package:mobile_stock_opname/features/email_otp/domain/repo/change_password_repo.dart';
 import 'package:mobile_stock_opname/utility/general_util.dart';
-import 'package:mobile_stock_opname/utility/shared_pref_util.dart';
 import 'package:mobile_stock_opname/utility/string_router_util.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class EmailOtpScreen extends StatefulWidget {
+  const EmailOtpScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<EmailOtpScreen> createState() => _EmailOtpScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _passController = TextEditingController();
-  LoginBloc loginBloc = LoginBloc(loginRepo: LoginRepo());
+class _EmailOtpScreenState extends State<EmailOtpScreen> {
+  final TextEditingController _usernameCtrl = TextEditingController();
+  ReqChangePasswordBloc changePasswordBloc =
+      ReqChangePasswordBloc(changePasswordRepo: ChangePasswordRepo());
   bool enable = false;
   bool isLoading = false;
 
@@ -81,12 +79,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           side: const BorderSide(
                               width: 1.0, color: Color(0xFFB1ADBC))),
                       child: TextFormField(
+                        controller: _usernameCtrl,
                         style: const TextStyle(color: Colors.black),
                         keyboardType: TextInputType.text,
-                        controller: _usernameController,
                         onChanged: (data) {
-                          if (_usernameController.text.isEmpty ||
-                              _passController.text.isEmpty) {
+                          if (_usernameCtrl.text.isEmpty) {
                             enable = false;
                           } else {
                             enable = true;
@@ -106,78 +103,31 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     const SizedBox(
                       height: 16,
-                    ),
-                    const Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'PASSWORD',
-                        style: TextStyle(fontSize: 12, color: Colors.white),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    Material(
-                      elevation: 6,
-                      shadowColor: Colors.grey.withOpacity(0.4),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                          side: const BorderSide(
-                              width: 1.0, color: Color(0xFFB1ADBC))),
-                      child: TextFormField(
-                        controller: _passController,
-                        keyboardType: TextInputType.text,
-                        obscureText: true,
-                        onChanged: (data) {
-                          if (_usernameController.text.isEmpty ||
-                              _passController.text.isEmpty) {
-                            enable = false;
-                          } else {
-                            enable = true;
-                          }
-                          setState(() {});
-                        },
-                        style: const TextStyle(color: Colors.black),
-                        decoration: InputDecoration(
-                            isDense: true,
-                            contentPadding: const EdgeInsets.all(24),
-                            hintStyle:
-                                TextStyle(color: Colors.grey.withOpacity(0.5)),
-                            filled: true,
-                            fillColor: const Color(0xFFB1ADBC),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(16),
-                              borderSide: BorderSide.none,
-                            )),
-                      ),
                     ),
                     const SizedBox(
                       height: 24,
                     ),
                     BlocListener(
-                        bloc: loginBloc,
-                        listener: (_, LoginState state) {
-                          if (state is LoginLoading) {
+                        bloc: changePasswordBloc,
+                        listener: (_, ReqChangePasswordState state) {
+                          if (state is ReqChangePasswordLoading) {
                             setState(() {
                               isLoading = true;
                             });
                           }
-                          if (state is LoginLoaded) {
-                            SharedPrefUtil.saveSharedString(
-                                'token', state.loginResponseModel.token!);
-                            Navigator.pushNamedAndRemoveUntil(
-                                context,
-                                StringRouterUtil.navbarScreenRoute,
-                                (route) => false);
+                          if (state is ReqChangePasswordLoaded) {
+                            Navigator.pushNamed(
+                                context, StringRouterUtil.otpScreenRoute,
+                                arguments: _usernameCtrl.text);
                           }
-                          if (state is LoginError) {
+                          if (state is ReqChangePasswordError) {
                             GeneralUtil()
                                 .showSnackBarError(context, state.error!);
                             setState(() {
                               isLoading = false;
                             });
                           }
-                          if (state is LoginException) {
+                          if (state is ReqChangePasswordException) {
                             GeneralUtil().showSnackBarError(
                                 context, 'Terjadi Kesalahan Sistem');
                             setState(() {
@@ -186,8 +136,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           }
                         },
                         child: BlocBuilder(
-                            bloc: loginBloc,
-                            builder: (_, LoginState state) {
+                            bloc: changePasswordBloc,
+                            builder: (_, ReqChangePasswordState state) {
                               return isLoading
                                   ? const Center(
                                       child: SizedBox(
@@ -199,15 +149,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                   : InkWell(
                                       onTap: enable
                                           ? () {
-                                              loginBloc.add(LoginAttempt(
-                                                  loginRequestModel:
-                                                      LoginRequestModel(
-                                                          username:
-                                                              _usernameController
-                                                                  .text,
-                                                          password:
-                                                              _passController
-                                                                  .text)));
+                                              changePasswordBloc.add(
+                                                  ReqChangePasswordAttempt(
+                                                      userName:
+                                                          _usernameCtrl.text));
                                             }
                                           : null,
                                       child: Container(
@@ -223,7 +168,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                     : Colors.grey,
                                                 width: 2)),
                                         child: Center(
-                                            child: Text('Login',
+                                            child: Text('SEND OTP',
                                                 style: TextStyle(
                                                     fontFamily:
                                                         GoogleFonts.poppins()
@@ -237,22 +182,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                       ),
                                     );
                             })),
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(
-                            context, StringRouterUtil.emailOtpScreenRoute);
-                      },
-                      child: const Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          'Forgot Password?',
-                          style: TextStyle(fontSize: 12, color: Colors.white),
-                        ),
-                      ),
-                    ),
                   ],
                 ),
               ),

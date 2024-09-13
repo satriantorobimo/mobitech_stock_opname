@@ -21,6 +21,7 @@ class StringRouterUtil {
   static const String dashboardScreenRoute = '/dashboard-route';
   static const String dashboardDetailScreenRoute = '/dashboard-detail-route';
   static const String notificationScreenRoute = '/notification-route';
+  static const String emailOtpScreenRoute = '/email-otp-route';
   static const String otpScreenRoute = '/otp-route';
   static const String profileScreenRoute = '/profile-route';
   static const String scannerScreenRoute = '/scanner-route';

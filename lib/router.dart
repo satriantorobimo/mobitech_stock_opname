@@ -13,6 +13,7 @@ import 'package:mobile_stock_opname/features/change_password/change_password_scr
 import 'package:mobile_stock_opname/features/daily_detail/daily_detail_screen.dart';
 import 'package:mobile_stock_opname/features/dashboard/dashboard_screen.dart';
 import 'package:mobile_stock_opname/features/dashboard_detail/dashboard_detail_screen.dart';
+import 'package:mobile_stock_opname/features/email_otp/email_otp_screen.dart';
 import 'package:mobile_stock_opname/features/login/login_screen.dart';
 import 'package:mobile_stock_opname/features/navbar/navbar_screen.dart';
 import 'package:mobile_stock_opname/features/notification/notification_screen.dart';
@@ -120,9 +121,17 @@ class Routers {
             transitionsBuilder: (_, Animation<double> a, __, Widget c) =>
                 FadeTransition(opacity: a, child: c));
 
-      case StringRouterUtil.otpScreenRoute:
+      case StringRouterUtil.emailOtpScreenRoute:
         return PageRouteBuilder<dynamic>(
-            pageBuilder: (_, __, ___) => const OtpScreen(),
+            pageBuilder: (_, __, ___) => const EmailOtpScreen(),
+            settings: RouteSettings(name: settings.name),
+            transitionsBuilder: (_, Animation<double> a, __, Widget c) =>
+                FadeTransition(opacity: a, child: c));
+
+      case StringRouterUtil.otpScreenRoute:
+        final String email = settings.arguments as String;
+        return PageRouteBuilder<dynamic>(
+            pageBuilder: (_, __, ___) => OtpScreen(email: email),
             settings: RouteSettings(name: settings.name),
             transitionsBuilder: (_, Animation<double> a, __, Widget c) =>
                 FadeTransition(opacity: a, child: c));
@@ -142,8 +151,9 @@ class Routers {
                 FadeTransition(opacity: a, child: c));
 
       case StringRouterUtil.changePwdScreenRoute:
+        final String email = settings.arguments as String;
         return PageRouteBuilder<dynamic>(
-            pageBuilder: (_, __, ___) => const ChangePasswordScreen(),
+            pageBuilder: (_, __, ___) => ChangePasswordScreen(email: email),
             settings: RouteSettings(name: settings.name),
             transitionsBuilder: (_, Animation<double> a, __, Widget c) =>
                 FadeTransition(opacity: a, child: c));

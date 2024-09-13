@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mobile_stock_opname/utility/shared_pref_util.dart';
 import 'package:mobile_stock_opname/utility/string_router_util.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -18,9 +19,14 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void _goToLogin() {
-    Future.delayed(const Duration(seconds: 2), () {
-      Navigator.pushNamedAndRemoveUntil(
-          context, StringRouterUtil.loginScreenRoute, (route) => false);
+    SharedPrefUtil.getSharedString('token').then((value) {
+      if (value == null) {
+        Navigator.pushNamedAndRemoveUntil(
+            context, StringRouterUtil.loginScreenRoute, (route) => false);
+      } else {
+        Navigator.pushNamedAndRemoveUntil(
+            context, StringRouterUtil.navbarScreenRoute, (route) => false);
+      }
     });
   }
 

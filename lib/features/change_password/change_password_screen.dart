@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mobile_stock_opname/features/email_otp/bloc/change_password_bloc/bloc.dart';
+import 'package:mobile_stock_opname/features/email_otp/data/change_password_request_model.dart';
+import 'package:mobile_stock_opname/features/email_otp/domain/repo/change_password_repo.dart';
+import 'package:mobile_stock_opname/utility/general_util.dart';
 import 'package:mobile_stock_opname/utility/string_router_util.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
-  const ChangePasswordScreen({super.key});
+  final String email;
+  const ChangePasswordScreen({super.key, required this.email});
 
   @override
   State<ChangePasswordScreen> createState() => _ChangePasswordScreenState();
@@ -12,6 +18,14 @@ class ChangePasswordScreen extends StatefulWidget {
 class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   bool _showPwd1 = true;
   bool _showPwd2 = true;
+  final TextEditingController _pwd1Ctrl = TextEditingController();
+  final TextEditingController _pwd2Ctrl = TextEditingController();
+  bool isCorrect = false;
+  bool isSame = false;
+  bool isLoading = false;
+  ChangePasswordBloc changePasswordBloc =
+      ChangePasswordBloc(changePasswordRepo: ChangePasswordRepo());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,11 +110,48 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                               style: const TextStyle(color: Colors.black),
                               keyboardType: TextInputType.text,
                               obscureText: _showPwd1,
+                              controller: _pwd1Ctrl,
+                              onChanged: ((value) {
+                                String pattern =
+                                    r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+                                RegExp regExp = RegExp(pattern);
+                                if (regExp.hasMatch(value)) {
+                                  setState(() {
+                                    isCorrect = true;
+                                  });
+                                } else {
+                                  setState(() {
+                                    isCorrect = false;
+                                  });
+                                }
+                              }),
                               decoration: InputDecoration(
                                   isDense: true,
                                   contentPadding: const EdgeInsets.all(24),
                                   filled: true,
                                   fillColor: const Color(0xFFB1ADBC),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(16),
+                                    borderSide: BorderSide(
+                                        color: _pwd1Ctrl.text.isEmpty ||
+                                                _pwd1Ctrl.text == ''
+                                            ? Colors.grey
+                                            : !isCorrect
+                                                ? Colors.red
+                                                : Colors.grey,
+                                        width: 2),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(16),
+                                    borderSide: BorderSide(
+                                        color: _pwd1Ctrl.text.isEmpty ||
+                                                _pwd1Ctrl.text == ''
+                                            ? Colors.grey
+                                            : !isCorrect
+                                                ? Colors.red
+                                                : Colors.grey,
+                                        width: 2),
+                                  ),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(16),
                                     borderSide: BorderSide.none,
@@ -152,7 +203,19 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             child: TextFormField(
                               keyboardType: TextInputType.text,
                               obscureText: _showPwd2,
+                              controller: _pwd2Ctrl,
                               style: const TextStyle(color: Colors.black),
+                              onChanged: ((value) {
+                                if (value == _pwd1Ctrl.text) {
+                                  setState(() {
+                                    isSame = true;
+                                  });
+                                } else {
+                                  setState(() {
+                                    isSame = false;
+                                  });
+                                }
+                              }),
                               decoration: InputDecoration(
                                   isDense: true,
                                   contentPadding: const EdgeInsets.all(24),
@@ -160,6 +223,28 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                       color: Colors.grey.withOpacity(0.5)),
                                   filled: true,
                                   fillColor: const Color(0xFFB1ADBC),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(16),
+                                    borderSide: BorderSide(
+                                        color: _pwd2Ctrl.text.isEmpty ||
+                                                _pwd2Ctrl.text == ''
+                                            ? Colors.grey
+                                            : !isSame
+                                                ? Colors.red
+                                                : Colors.grey,
+                                        width: 2),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(16),
+                                    borderSide: BorderSide(
+                                        color: _pwd2Ctrl.text.isEmpty ||
+                                                _pwd2Ctrl.text == ''
+                                            ? Colors.grey
+                                            : !isSame
+                                                ? Colors.red
+                                                : Colors.grey,
+                                        width: 2),
+                                  ),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(16),
                                     borderSide: BorderSide.none,
@@ -189,38 +274,155 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     ],
                   ),
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.12),
-                InkWell(
-                  onTap: () {
-                    Navigator.pushNamedAndRemoveUntil(context,
-                        StringRouterUtil.navbarScreenRoute, (route) => false);
-                  },
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * 0.6,
-                    height: 66,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFE45A04),
-                      borderRadius: BorderRadius.circular(28),
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Text('Confirm',
+                SizedBox(height: MediaQuery.of(context).size.height * 0.04),
+                Padding(
+                  padding: const EdgeInsets.only(left: 40.0),
+                  child: Column(
+                    children: [
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text('Your password must :',
                             style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600)),
-                        SizedBox(width: 4),
-                        Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          color: Colors.white,
-                          size: 20,
-                        )
-                      ],
-                    ),
+                                fontFamily: GoogleFonts.raleway().fontFamily,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white)),
+                      ),
+                      const SizedBox(height: 4),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text('  1. Be at least 8 characters',
+                            style: TextStyle(
+                                fontFamily: GoogleFonts.raleway().fontFamily,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white)),
+                      ),
+                      const SizedBox(height: 4),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                            '  2. Include at least one uppercase letter',
+                            style: TextStyle(
+                                fontFamily: GoogleFonts.raleway().fontFamily,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white)),
+                      ),
+                      const SizedBox(height: 4),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text('  3. Include at least one number',
+                            style: TextStyle(
+                                fontFamily: GoogleFonts.raleway().fontFamily,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white)),
+                      ),
+                      const SizedBox(height: 4),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text('  4. Include at least one symbol',
+                            style: TextStyle(
+                                fontFamily: GoogleFonts.raleway().fontFamily,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white)),
+                      ),
+                    ],
                   ),
-                )
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+                BlocListener(
+                    bloc: changePasswordBloc,
+                    listener: (_, ChangePasswordState state) {
+                      if (state is ChangePasswordLoading) {
+                        setState(() {
+                          isLoading = true;
+                        });
+                      }
+                      if (state is ChangePasswordLoaded) {
+                        GeneralUtil().showSnackBarSuccess(
+                            context, 'Change Password Successfully');
+                        Future.delayed(const Duration(milliseconds: 500), () {
+                          Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              StringRouterUtil.loginScreenRoute,
+                              (route) => false);
+                        });
+                      }
+                      if (state is ChangePasswordError) {
+                        GeneralUtil().showSnackBarError(context, state.error!);
+                        setState(() {
+                          isLoading = false;
+                        });
+                      }
+                      if (state is ChangePasswordException) {
+                        GeneralUtil().showSnackBarError(
+                            context, 'Terjadi Kesalahan Sistem');
+                        setState(() {
+                          isLoading = false;
+                        });
+                      }
+                    },
+                    child: BlocBuilder(
+                        bloc: changePasswordBloc,
+                        builder: (_, ChangePasswordState state) {
+                          return isLoading
+                              ? const Center(
+                                  child: SizedBox(
+                                    width: 45,
+                                    height: 45,
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                )
+                              : InkWell(
+                                  onTap: isCorrect && isSame
+                                      ? () {
+                                          changePasswordBloc.add(
+                                              ChangePasswordAttempt(
+                                                  changePasswordRequestModel:
+                                                      ChangePasswordRequestModel(
+                                                          confirmPassword:
+                                                              _pwd2Ctrl.text,
+                                                          password:
+                                                              _pwd1Ctrl.text,
+                                                          username:
+                                                              widget.email)));
+                                        }
+                                      : null,
+                                  child: Container(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.6,
+                                    height: 66,
+                                    decoration: BoxDecoration(
+                                      color: isCorrect && isSame
+                                          ? const Color(0xFFE45A04)
+                                          : Colors.grey,
+                                      borderRadius: BorderRadius.circular(28),
+                                    ),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: const [
+                                        Text('Confirm',
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w600)),
+                                        SizedBox(width: 4),
+                                        Icon(
+                                          Icons.arrow_forward_ios_rounded,
+                                          color: Colors.white,
+                                          size: 20,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                );
+                        })),
               ],
             ),
           ),
