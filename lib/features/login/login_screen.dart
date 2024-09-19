@@ -163,12 +163,12 @@ class _LoginScreenState extends State<LoginScreen> {
                             });
                           }
                           if (state is LoginLoaded) {
-                            SharedPrefUtil.saveSharedString(
-                                'token', state.loginResponseModel.token!);
-                            Navigator.pushNamedAndRemoveUntil(
-                                context,
-                                StringRouterUtil.navbarScreenRoute,
-                                (route) => false);
+                            setState(() {
+                              isLoading = false;
+                            });
+                            Navigator.pushNamed(
+                                context, StringRouterUtil.otpLoginScreenRoute,
+                                arguments: _usernameController.text);
                           }
                           if (state is LoginError) {
                             GeneralUtil()

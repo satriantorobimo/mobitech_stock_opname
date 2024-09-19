@@ -2,35 +2,35 @@ import 'package:equatable/equatable.dart';
 import 'package:mobile_stock_opname/features/email_otp/data/change_password_response_model.dart';
 import 'package:mobile_stock_opname/features/login/data/general_response_model.dart';
 
-abstract class LoginState extends Equatable {
-  const LoginState();
+abstract class ResendOtpState extends Equatable {
+  const ResendOtpState();
 
   @override
   List<Object> get props => [];
 }
 
-class LoginInitial extends LoginState {}
+class ResendOtpInitial extends ResendOtpState {}
 
-class LoginLoading extends LoginState {}
+class ResendOtpLoading extends ResendOtpState {}
 
-class LoginLoaded extends LoginState {
-  const LoginLoaded({required this.generalResponseModel});
+class ResendOtpLoaded extends ResendOtpState {
+  const ResendOtpLoaded({required this.generalResponseModel});
   final GeneralResponseModel generalResponseModel;
 
   @override
   List<Object> get props => [generalResponseModel];
 }
 
-class LoginError extends LoginState {
-  const LoginError(this.error);
+class ResendOtpError extends ResendOtpState {
+  const ResendOtpError(this.error);
   final String? error;
 
   @override
   List<Object> get props => [error!];
 }
 
-class LoginException extends LoginState {
-  const LoginException(this.error);
+class ResendOtpException extends ResendOtpState {
+  const ResendOtpException(this.error);
   final String error;
 
   @override

@@ -11,12 +11,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       if (event is LoginAttempt) {
         try {
           emit(LoginLoading());
-          final loginResponseModel =
+          final generalResponseModel =
               await loginRepo.attemptLogin(event.loginRequestModel);
-          if (loginResponseModel!.status == 1) {
-            emit(LoginLoaded(loginResponseModel: loginResponseModel));
-          } else if (loginResponseModel.status == 0) {
-            emit(LoginError(loginResponseModel.message));
+          if (generalResponseModel!.status == 1) {
+            emit(LoginLoaded(generalResponseModel: generalResponseModel));
+          } else if (generalResponseModel.status == 0) {
+            emit(LoginError(generalResponseModel.message));
           } else {
             emit(const LoginException('error'));
           }

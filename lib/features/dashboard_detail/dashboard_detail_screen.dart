@@ -1,10 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mobile_stock_opname/utility/shared_pref_util.dart';
 import 'package:mobile_stock_opname/utility/string_router_util.dart';
 
-class DashboardDetailScreen extends StatelessWidget {
+class DashboardDetailScreen extends StatefulWidget {
   const DashboardDetailScreen({super.key});
+
+  @override
+  State<DashboardDetailScreen> createState() => _DashboardDetailScreenState();
+}
+
+class _DashboardDetailScreenState extends State<DashboardDetailScreen> {
+  String name = '';
+  String uid = '';
+  String company = '';
+
+  @override
+  void initState() {
+    getUserData();
+    super.initState();
+  }
+
+  void getUserData() async {
+    await SharedPrefUtil.getSharedString('name').then((value) => name = value!);
+    await SharedPrefUtil.getSharedString('uid').then((value) => uid = value!);
+    await SharedPrefUtil.getSharedString('company')
+        .then((value) => company = value!);
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +94,7 @@ class DashboardDetailScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    Text('Naomi',
+                    Text(name,
                         style: TextStyle(
                             fontFamily: GoogleFonts.poppins().fontFamily,
                             fontWeight: FontWeight.bold,
@@ -79,13 +103,13 @@ class DashboardDetailScreen extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Asset Management Staff',
+                        Text(uid,
                             style: TextStyle(
                                 fontFamily: GoogleFonts.poppins().fontFamily,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 12,
                                 color: Colors.white)),
-                        Text('Head Office',
+                        Text(company,
                             style: TextStyle(
                                 fontFamily: GoogleFonts.poppins().fontFamily,
                                 fontWeight: FontWeight.bold,

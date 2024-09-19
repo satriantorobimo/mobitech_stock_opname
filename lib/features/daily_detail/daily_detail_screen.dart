@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_stock_opname/features/dashboard/bar_chart.dart';
 import 'package:mobile_stock_opname/features/dashboard/class_status.dart';
 import 'package:mobile_stock_opname/features/dashboard/line_chart.dart';
+import 'package:mobile_stock_opname/utility/shared_pref_util.dart';
 import 'package:mobile_stock_opname/utility/string_router_util.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
@@ -15,6 +16,24 @@ class DailyDetailScreen extends StatefulWidget {
 }
 
 class _DailyDetailScreenState extends State<DailyDetailScreen> {
+  String name = '';
+  String uid = '';
+  String company = '';
+
+  @override
+  void initState() {
+    getUserData();
+    super.initState();
+  }
+
+  void getUserData() async {
+    await SharedPrefUtil.getSharedString('name').then((value) => name = value!);
+    await SharedPrefUtil.getSharedString('uid').then((value) => uid = value!);
+    await SharedPrefUtil.getSharedString('company')
+        .then((value) => company = value!);
+    setState(() {});
+  }
+
   final EventList<Event> _markedDateMap = EventList<Event>(
     events: {
       DateTime(2024, 5, 10): [
@@ -189,7 +208,7 @@ class _DailyDetailScreenState extends State<DailyDetailScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    Text('Naomi',
+                    Text(name,
                         style: TextStyle(
                             fontFamily: GoogleFonts.poppins().fontFamily,
                             fontWeight: FontWeight.bold,
@@ -198,13 +217,13 @@ class _DailyDetailScreenState extends State<DailyDetailScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Asset Management Staff',
+                        Text(uid,
                             style: TextStyle(
                                 fontFamily: GoogleFonts.poppins().fontFamily,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 12,
                                 color: Colors.white)),
-                        Text('Head Office',
+                        Text(company,
                             style: TextStyle(
                                 fontFamily: GoogleFonts.poppins().fontFamily,
                                 fontWeight: FontWeight.bold,

@@ -18,6 +18,7 @@ import 'package:mobile_stock_opname/features/login/login_screen.dart';
 import 'package:mobile_stock_opname/features/navbar/navbar_screen.dart';
 import 'package:mobile_stock_opname/features/notification/notification_screen.dart';
 import 'package:mobile_stock_opname/features/otp/otp_screen.dart';
+import 'package:mobile_stock_opname/features/otp_login/otp_login_screen.dart';
 import 'package:mobile_stock_opname/features/profile/profile_screen.dart';
 import 'package:mobile_stock_opname/features/scanner/scanner_screen.dart';
 import 'package:mobile_stock_opname/features/splash/splash_screen.dart';
@@ -132,6 +133,14 @@ class Routers {
         final String email = settings.arguments as String;
         return PageRouteBuilder<dynamic>(
             pageBuilder: (_, __, ___) => OtpScreen(email: email),
+            settings: RouteSettings(name: settings.name),
+            transitionsBuilder: (_, Animation<double> a, __, Widget c) =>
+                FadeTransition(opacity: a, child: c));
+
+      case StringRouterUtil.otpLoginScreenRoute:
+        final String email = settings.arguments as String;
+        return PageRouteBuilder<dynamic>(
+            pageBuilder: (_, __, ___) => OtpLoginScreen(email: email),
             settings: RouteSettings(name: settings.name),
             transitionsBuilder: (_, Animation<double> a, __, Widget c) =>
                 FadeTransition(opacity: a, child: c));

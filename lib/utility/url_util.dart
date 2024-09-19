@@ -53,7 +53,7 @@ class UrlUtil {
     return headerType();
   }
 
-  static String urlLogin() => 'Token_SOMobile/api/Authenticate/request';
+  static String urlLogin() => 'Token_SOMobile/api/Authenticate/requestValidate';
 
   String getUrlLogin() {
     final String getUrlLogin2 = urlLogin();
@@ -90,5 +90,21 @@ class UrlUtil {
   String getUrlConfirmPassword() {
     final String urlConfirmPassword2 = urlConfirmPassword();
     return baseUrl + urlConfirmPassword2;
+  }
+
+  static String urlValidateOtpLogin() =>
+      'Token_SOMobile/api/Authenticate/requestValidateOTP';
+
+  String getUrlValidateOtpLogin() {
+    final String urlValidateOtpLogin2 = urlValidateOtpLogin();
+    return baseUrl + urlValidateOtpLogin2;
+  }
+
+  static String urlResendOtpLogin() =>
+      'Token_SOMobile/api/Authenticate/requestResendOTP';
+
+  String getUrlResendOtpLogin() {
+    final String urlResendOtpLogin2 = urlResendOtpLogin();
+    return baseUrl + urlResendOtpLogin2;
   }
 }

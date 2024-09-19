@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mobile_stock_opname/utility/shared_pref_util.dart';
 import 'package:mobile_stock_opname/utility/string_router_util.dart';
 
 class AdditionalRequestListScreen extends StatefulWidget {
@@ -17,6 +18,24 @@ class _AdditionalRequestListScreenState
   bool sell = false;
   bool disposal = false;
   bool maintanance = false;
+  String name = '';
+  String uid = '';
+  String company = '';
+
+  @override
+  void initState() {
+    getUserData();
+    super.initState();
+  }
+
+  void getUserData() async {
+    await SharedPrefUtil.getSharedString('name').then((value) => name = value!);
+    await SharedPrefUtil.getSharedString('uid').then((value) => uid = value!);
+    await SharedPrefUtil.getSharedString('company')
+        .then((value) => company = value!);
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,7 +85,7 @@ class _AdditionalRequestListScreenState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    Text('Naomi',
+                    Text(name,
                         style: TextStyle(
                             fontFamily: GoogleFonts.poppins().fontFamily,
                             fontWeight: FontWeight.bold,
@@ -75,13 +94,13 @@ class _AdditionalRequestListScreenState
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Asset Management Staff',
+                        Text(uid,
                             style: TextStyle(
                                 fontFamily: GoogleFonts.poppins().fontFamily,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 12,
                                 color: Colors.white)),
-                        Text('Head Office',
+                        Text(company,
                             style: TextStyle(
                                 fontFamily: GoogleFonts.poppins().fontFamily,
                                 fontWeight: FontWeight.bold,

@@ -23,6 +23,7 @@ class StringRouterUtil {
   static const String notificationScreenRoute = '/notification-route';
   static const String emailOtpScreenRoute = '/email-otp-route';
   static const String otpScreenRoute = '/otp-route';
+  static const String otpLoginScreenRoute = '/otp-login-route';
   static const String profileScreenRoute = '/profile-route';
   static const String scannerScreenRoute = '/scanner-route';
   static const String changePwdScreenRoute = '/change-pwd-route';
