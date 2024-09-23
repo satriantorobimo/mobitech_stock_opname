@@ -6,6 +6,7 @@ import 'package:mobile_stock_opname/features/additional_request_detail_form/addi
 import 'package:mobile_stock_opname/features/additional_request_list/additional_request_list_screen.dart';
 import 'package:mobile_stock_opname/features/asset_opname/asset_opname_screen.dart';
 import 'package:mobile_stock_opname/features/asset_opname_detail/asset_opname_detail_screen.dart';
+import 'package:mobile_stock_opname/features/asset_opname_detail/data/arguments_asset_grow.dart';
 import 'package:mobile_stock_opname/features/asset_opname_detail_form/asset_opname_detail_form_screen.dart';
 import 'package:mobile_stock_opname/features/asset_opname_detail_form/drop_down_screen.dart';
 import 'package:mobile_stock_opname/features/asset_opname_list/asset_opname_list_screen.dart';
@@ -86,10 +87,11 @@ class Routers {
                 FadeTransition(opacity: a, child: c));
 
       case StringRouterUtil.assetOpnameDetailScreenRoute:
-        final bool isInput = settings.arguments as bool;
+        final ArgumentsAssetGrow argumentsAssetGrow =
+            settings.arguments as ArgumentsAssetGrow;
         return PageRouteBuilder<dynamic>(
             pageBuilder: (_, __, ___) =>
-                AssetOpnameDetailScreen(isInput: isInput),
+                AssetOpnameDetailScreen(argumentsAssetGrow: argumentsAssetGrow),
             settings: RouteSettings(name: settings.name),
             transitionsBuilder: (_, Animation<double> a, __, Widget c) =>
                 FadeTransition(opacity: a, child: c));

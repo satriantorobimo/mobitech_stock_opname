@@ -107,4 +107,11 @@ class UrlUtil {
     final String urlResendOtpLogin2 = urlResendOtpLogin();
     return baseUrl + urlResendOtpLogin2;
   }
+
+  static String urlAssetGrow() => 'SOMobile_api/api/Asset/Getrow';
+
+  String getUrlAssetGrow() {
+    final String urlAssetGrow2 = urlAssetGrow();
+    return baseUrl + urlAssetGrow2;
+  }
 }

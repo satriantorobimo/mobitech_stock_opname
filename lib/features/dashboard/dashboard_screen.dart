@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_calendar_carousel/classes/event.dart';
-import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
+// import 'package:flutter_calendar_carousel/classes/event.dart';
+// import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_stock_opname/features/dashboard/bar_chart.dart';
@@ -38,115 +38,116 @@ class _DashboardScreenState extends State<DashboardScreen> {
     setState(() {});
   }
 
-  final EventList<Event> _markedDateMap = EventList<Event>(
-    events: {
-      DateTime(2024, 5, 10): [
-        Event(
-          date: DateTime(2024, 5, 10),
-          title: 'Event 1',
-          icon: const Icon(Icons.circle),
-          dot: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 1.0),
-            color: Colors.red,
-            height: 4.0,
-            width: 4.0,
-          ),
-        ),
-        Event(
-          date: DateTime(2024, 5, 10),
-          title: 'Event 2',
-          icon: const Icon(Icons.circle),
-          dot: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 1.0),
-            color: Colors.green,
-            height: 4.0,
-            width: 4.0,
-          ),
-        ),
-        Event(
-          date: DateTime(2024, 5, 10),
-          title: 'Event 3',
-          icon: const Icon(Icons.circle),
-          dot: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 1.0),
-            color: Colors.red,
-            height: 4.0,
-            width: 4.0,
-          ),
-        ),
-      ],
-      DateTime(2024, 5, 9): [
-        Event(
-          date: DateTime(2024, 5, 9),
-          title: 'Event 1',
-          icon: const Icon(Icons.circle),
-          dot: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 1.0),
-            color: Colors.green,
-            height: 4.0,
-            width: 4.0,
-          ),
-        ),
-        Event(
-          date: DateTime(2024, 5, 9),
-          title: 'Event 2',
-          icon: const Icon(Icons.circle),
-          dot: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 1.0),
-            color: Colors.red,
-            height: 4.0,
-            width: 4.0,
-          ),
-        ),
-        Event(
-          date: DateTime(2024, 5, 9),
-          title: 'Event 3',
-          icon: const Icon(Icons.circle),
-          dot: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 1.0),
-            color: Colors.green,
-            height: 4.0,
-            width: 4.0,
-          ),
-        ),
-      ],
-      DateTime(2024, 5, 8): [
-        Event(
-          date: DateTime(2024, 5, 8),
-          title: 'Event 1',
-          icon: const Icon(Icons.circle),
-          dot: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 1.0),
-            color: Colors.red,
-            height: 4.0,
-            width: 4.0,
-          ),
-        ),
-        Event(
-          date: DateTime(2024, 5, 8),
-          title: 'Event 2',
-          icon: const Icon(Icons.circle),
-          dot: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 1.0),
-            color: Colors.red,
-            height: 4.0,
-            width: 4.0,
-          ),
-        ),
-        Event(
-          date: DateTime(2024, 5, 8),
-          title: 'Event 3',
-          icon: const Icon(Icons.circle),
-          dot: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 1.0),
-            color: Colors.green,
-            height: 4.0,
-            width: 4.0,
-          ),
-        ),
-      ],
-    },
-  );
+  // final EventList<Event> _markedDateMap = EventList<Event>(
+  //   events: {
+  //     DateTime(2024, 5, 10): [
+  //       Event(
+  //         date: DateTime(2024, 5, 10),
+  //         title: 'Event 1',
+  //         icon: const Icon(Icons.circle),
+  //         dot: Container(
+  //           margin: const EdgeInsets.symmetric(horizontal: 1.0),
+  //           color: Colors.red,
+  //           height: 4.0,
+  //           width: 4.0,
+  //         ),
+  //       ),
+  //       Event(
+  //         date: DateTime(2024, 5, 10),
+  //         title: 'Event 2',
+  //         icon: const Icon(Icons.circle),
+  //         dot: Container(
+  //           margin: const EdgeInsets.symmetric(horizontal: 1.0),
+  //           color: Colors.green,
+  //           height: 4.0,
+  //           width: 4.0,
+  //         ),
+  //       ),
+  //       Event(
+  //         date: DateTime(2024, 5, 10),
+  //         title: 'Event 3',
+  //         icon: const Icon(Icons.circle),
+  //         dot: Container(
+  //           margin: const EdgeInsets.symmetric(horizontal: 1.0),
+  //           color: Colors.red,
+  //           height: 4.0,
+  //           width: 4.0,
+  //         ),
+  //       ),
+  //     ],
+  //     DateTime(2024, 5, 9): [
+  //       Event(
+  //         date: DateTime(2024, 5, 9),
+  //         title: 'Event 1',
+  //         icon: const Icon(Icons.circle),
+  //         dot: Container(
+  //           margin: const EdgeInsets.symmetric(horizontal: 1.0),
+  //           color: Colors.green,
+  //           height: 4.0,
+  //           width: 4.0,
+  //         ),
+  //       ),
+  //       Event(
+  //         date: DateTime(2024, 5, 9),
+  //         title: 'Event 2',
+  //         icon: const Icon(Icons.circle),
+  //         dot: Container(
+  //           margin: const EdgeInsets.symmetric(horizontal: 1.0),
+  //           color: Colors.red,
+  //           height: 4.0,
+  //           width: 4.0,
+  //         ),
+  //       ),
+  //       Event(
+  //         date: DateTime(2024, 5, 9),
+  //         title: 'Event 3',
+  //         icon: const Icon(Icons.circle),
+  //         dot: Container(
+  //           margin: const EdgeInsets.symmetric(horizontal: 1.0),
+  //           color: Colors.green,
+  //           height: 4.0,
+  //           width: 4.0,
+  //         ),
+  //       ),
+  //     ],
+  //     DateTime(2024, 5, 8): [
+  //       Event(
+  //         date: DateTime(2024, 5, 8),
+  //         title: 'Event 1',
+  //         icon: const Icon(Icons.circle),
+  //         dot: Container(
+  //           margin: const EdgeInsets.symmetric(horizontal: 1.0),
+  //           color: Colors.red,
+  //           height: 4.0,
+  //           width: 4.0,
+  //         ),
+  //       ),
+  //       Event(
+  //         date: DateTime(2024, 5, 8),
+  //         title: 'Event 2',
+  //         icon: const Icon(Icons.circle),
+  //         dot: Container(
+  //           margin: const EdgeInsets.symmetric(horizontal: 1.0),
+  //           color: Colors.red,
+  //           height: 4.0,
+  //           width: 4.0,
+  //         ),
+  //       ),
+  //       Event(
+  //         date: DateTime(2024, 5, 8),
+  //         title: 'Event 3',
+  //         icon: const Icon(Icons.circle),
+  //         dot: Container(
+  //           margin: const EdgeInsets.symmetric(horizontal: 1.0),
+  //           color: Colors.green,
+  //           height: 4.0,
+  //           width: 4.0,
+  //         ),
+  //       ),
+  //     ],
+  //   },
+  // );
+
   @override
   Widget build(BuildContext context) {
     final List<Status> data = [
@@ -456,56 +457,57 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
               ),
             ),
-            Visibility(
-              visible: calendar,
-              child: Padding(
-                  padding: const EdgeInsets.only(left: 24.0, right: 24.0),
-                  child: Container(
-                    color: Colors.white,
-                    child: CalendarCarousel<Event>(
-                      onDayPressed: (DateTime date, List<Event> events) {},
-                      weekendTextStyle: const TextStyle(
-                        color: Colors.red,
-                      ),
-                      thisMonthDayBorderColor: Colors.white,
-                      showHeader: true,
-                      isScrollable: false,
-                      selectedDayBorderColor: const Color(0xFFE45A04),
-                      todayBorderColor: const Color(0xFFE45A04),
-                      todayTextStyle: const TextStyle(color: Colors.white),
-                      customDayBuilder: (
-                        bool isSelectable,
-                        int index,
-                        bool isSelectedDay,
-                        bool isToday,
-                        bool isPrevMonthDay,
-                        TextStyle textStyle,
-                        bool isNextMonthDay,
-                        bool isThisMonthDay,
-                        DateTime day,
-                      ) {
-                        if (day.day == 15) {
-                          return null;
-                        } else {
-                          return null;
-                        }
-                      },
-                      weekFormat: false,
-                      markedDatesMap: _markedDateMap,
-                      markedDateCustomShapeBorder: RoundedRectangleBorder(
-                        side: BorderSide(
-                          color: Colors.blue,
-                        ),
-                      ),
+            // Visibility(
+            //   visible: calendar,
+            //   child: Padding(
+            //       padding: const EdgeInsets.only(left: 24.0, right: 24.0),
+            //       child: Container(
+            //         color: Colors.white,
+            //         child: CalendarCarousel<Event>(
+            //           onDayPressed: (DateTime date, List<Event> events) {},
+            //           weekendTextStyle: const TextStyle(
+            //             color: Colors.red,
+            //           ),
+            //           thisMonthDayBorderColor: Colors.white,
+            //           showHeader: true,
+            //           isScrollable: false,
+            //           selectedDayBorderColor: const Color(0xFFE45A04),
+            //           todayBorderColor: const Color(0xFFE45A04),
+            //           todayTextStyle: const TextStyle(color: Colors.white),
+            //           customDayBuilder: (
+            //             bool isSelectable,
+            //             int index,
+            //             bool isSelectedDay,
+            //             bool isToday,
+            //             bool isPrevMonthDay,
+            //             TextStyle textStyle,
+            //             bool isNextMonthDay,
+            //             bool isThisMonthDay,
+            //             DateTime day,
+            //           ) {
+            //             if (day.day == 15) {
+            //               return null;
+            //             } else {
+            //               return null;
+            //             }
+            //           },
+            //           weekFormat: false,
+            //           markedDatesMap: _markedDateMap,
+            //           markedDateCustomShapeBorder: RoundedRectangleBorder(
+            //             side: BorderSide(
+            //               color: Colors.blue,
+            //             ),
+            //           ),
 
-                      height: MediaQuery.of(context).size.height * 0.415,
-                      selectedDateTime: DateTime.now(),
-                      daysHaveCircularBorder: false,
+            //           height: MediaQuery.of(context).size.height * 0.415,
+            //           selectedDateTime: DateTime.now(),
+            //           daysHaveCircularBorder: false,
 
-                      /// null for not rendering any border, true for circular border, false for rectangular border
-                    ),
-                  )),
-            ),
+            //           /// null for not rendering any border, true for circular border, false for rectangular border
+            //         ),
+            //       )),
+            // ),
+
             Visibility(
               visible: calendar,
               child: Padding(

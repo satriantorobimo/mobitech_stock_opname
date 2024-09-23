@@ -5,8 +5,8 @@ import 'package:mobile_stock_opname/features/dashboard/class_status.dart';
 import 'package:mobile_stock_opname/features/dashboard/line_chart.dart';
 import 'package:mobile_stock_opname/utility/shared_pref_util.dart';
 import 'package:mobile_stock_opname/utility/string_router_util.dart';
-import 'package:flutter_calendar_carousel/classes/event.dart';
-import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
+// import 'package:flutter_calendar_carousel/classes/event.dart';
+// import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 
 class DailyDetailScreen extends StatefulWidget {
   const DailyDetailScreen({super.key});
@@ -34,115 +34,115 @@ class _DailyDetailScreenState extends State<DailyDetailScreen> {
     setState(() {});
   }
 
-  final EventList<Event> _markedDateMap = EventList<Event>(
-    events: {
-      DateTime(2024, 5, 10): [
-        Event(
-          date: DateTime(2024, 5, 10),
-          title: 'Event 1',
-          icon: const Icon(Icons.circle),
-          dot: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 1.0),
-            color: Colors.red,
-            height: 4.0,
-            width: 4.0,
-          ),
-        ),
-        Event(
-          date: DateTime(2024, 5, 10),
-          title: 'Event 2',
-          icon: const Icon(Icons.circle),
-          dot: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 1.0),
-            color: Colors.green,
-            height: 4.0,
-            width: 4.0,
-          ),
-        ),
-        Event(
-          date: DateTime(2024, 5, 10),
-          title: 'Event 3',
-          icon: const Icon(Icons.circle),
-          dot: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 1.0),
-            color: Colors.red,
-            height: 4.0,
-            width: 4.0,
-          ),
-        ),
-      ],
-      DateTime(2024, 5, 9): [
-        Event(
-          date: DateTime(2024, 5, 9),
-          title: 'Event 1',
-          icon: const Icon(Icons.circle),
-          dot: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 1.0),
-            color: Colors.green,
-            height: 4.0,
-            width: 4.0,
-          ),
-        ),
-        Event(
-          date: DateTime(2024, 5, 9),
-          title: 'Event 2',
-          icon: const Icon(Icons.circle),
-          dot: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 1.0),
-            color: Colors.red,
-            height: 4.0,
-            width: 4.0,
-          ),
-        ),
-        Event(
-          date: DateTime(2024, 5, 9),
-          title: 'Event 3',
-          icon: const Icon(Icons.circle),
-          dot: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 1.0),
-            color: Colors.green,
-            height: 4.0,
-            width: 4.0,
-          ),
-        ),
-      ],
-      DateTime(2024, 5, 8): [
-        Event(
-          date: DateTime(2024, 5, 8),
-          title: 'Event 1',
-          icon: const Icon(Icons.circle),
-          dot: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 1.0),
-            color: Colors.red,
-            height: 4.0,
-            width: 4.0,
-          ),
-        ),
-        Event(
-          date: DateTime(2024, 5, 8),
-          title: 'Event 2',
-          icon: const Icon(Icons.circle),
-          dot: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 1.0),
-            color: Colors.red,
-            height: 4.0,
-            width: 4.0,
-          ),
-        ),
-        Event(
-          date: DateTime(2024, 5, 8),
-          title: 'Event 3',
-          icon: const Icon(Icons.circle),
-          dot: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 1.0),
-            color: Colors.green,
-            height: 4.0,
-            width: 4.0,
-          ),
-        ),
-      ],
-    },
-  );
+  // final EventList<Event> _markedDateMap = EventList<Event>(
+  //   events: {
+  //     DateTime(2024, 5, 10): [
+  //       Event(
+  //         date: DateTime(2024, 5, 10),
+  //         title: 'Event 1',
+  //         icon: const Icon(Icons.circle),
+  //         dot: Container(
+  //           margin: const EdgeInsets.symmetric(horizontal: 1.0),
+  //           color: Colors.red,
+  //           height: 4.0,
+  //           width: 4.0,
+  //         ),
+  //       ),
+  //       Event(
+  //         date: DateTime(2024, 5, 10),
+  //         title: 'Event 2',
+  //         icon: const Icon(Icons.circle),
+  //         dot: Container(
+  //           margin: const EdgeInsets.symmetric(horizontal: 1.0),
+  //           color: Colors.green,
+  //           height: 4.0,
+  //           width: 4.0,
+  //         ),
+  //       ),
+  //       Event(
+  //         date: DateTime(2024, 5, 10),
+  //         title: 'Event 3',
+  //         icon: const Icon(Icons.circle),
+  //         dot: Container(
+  //           margin: const EdgeInsets.symmetric(horizontal: 1.0),
+  //           color: Colors.red,
+  //           height: 4.0,
+  //           width: 4.0,
+  //         ),
+  //       ),
+  //     ],
+  //     DateTime(2024, 5, 9): [
+  //       Event(
+  //         date: DateTime(2024, 5, 9),
+  //         title: 'Event 1',
+  //         icon: const Icon(Icons.circle),
+  //         dot: Container(
+  //           margin: const EdgeInsets.symmetric(horizontal: 1.0),
+  //           color: Colors.green,
+  //           height: 4.0,
+  //           width: 4.0,
+  //         ),
+  //       ),
+  //       Event(
+  //         date: DateTime(2024, 5, 9),
+  //         title: 'Event 2',
+  //         icon: const Icon(Icons.circle),
+  //         dot: Container(
+  //           margin: const EdgeInsets.symmetric(horizontal: 1.0),
+  //           color: Colors.red,
+  //           height: 4.0,
+  //           width: 4.0,
+  //         ),
+  //       ),
+  //       Event(
+  //         date: DateTime(2024, 5, 9),
+  //         title: 'Event 3',
+  //         icon: const Icon(Icons.circle),
+  //         dot: Container(
+  //           margin: const EdgeInsets.symmetric(horizontal: 1.0),
+  //           color: Colors.green,
+  //           height: 4.0,
+  //           width: 4.0,
+  //         ),
+  //       ),
+  //     ],
+  //     DateTime(2024, 5, 8): [
+  //       Event(
+  //         date: DateTime(2024, 5, 8),
+  //         title: 'Event 1',
+  //         icon: const Icon(Icons.circle),
+  //         dot: Container(
+  //           margin: const EdgeInsets.symmetric(horizontal: 1.0),
+  //           color: Colors.red,
+  //           height: 4.0,
+  //           width: 4.0,
+  //         ),
+  //       ),
+  //       Event(
+  //         date: DateTime(2024, 5, 8),
+  //         title: 'Event 2',
+  //         icon: const Icon(Icons.circle),
+  //         dot: Container(
+  //           margin: const EdgeInsets.symmetric(horizontal: 1.0),
+  //           color: Colors.red,
+  //           height: 4.0,
+  //           width: 4.0,
+  //         ),
+  //       ),
+  //       Event(
+  //         date: DateTime(2024, 5, 8),
+  //         title: 'Event 3',
+  //         icon: const Icon(Icons.circle),
+  //         dot: Container(
+  //           margin: const EdgeInsets.symmetric(horizontal: 1.0),
+  //           color: Colors.green,
+  //           height: 4.0,
+  //           width: 4.0,
+  //         ),
+  //       ),
+  //     ],
+  //   },
+  // );
 
   @override
   Widget build(BuildContext context) {
