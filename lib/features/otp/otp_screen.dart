@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -162,10 +164,26 @@ class _OtpScreenState extends State<OtpScreen> {
                             if (state is ResendOtpError) {
                               GeneralUtil()
                                   .showSnackBarError(context, state.error!);
+                              if (state.error!
+                                  .toLowerCase()
+                                  .contains('please try again in')) {
+                                Navigator.pushNamedAndRemoveUntil(
+                                    context,
+                                    StringRouterUtil.loginScreenRoute,
+                                    (route) => false);
+                              }
                             }
                             if (state is ResendOtpException) {
-                              GeneralUtil().showSnackBarError(
-                                  context, 'Terjadi Kesalahan Sistem');
+                              GeneralUtil()
+                                  .showSnackBarError(context, state.error);
+                              if (state.error
+                                  .toLowerCase()
+                                  .contains('please try again in')) {
+                                Navigator.pushNamedAndRemoveUntil(
+                                    context,
+                                    StringRouterUtil.loginScreenRoute,
+                                    (route) => false);
+                              }
                             }
                           },
                           child: BlocBuilder(
@@ -173,6 +191,9 @@ class _OtpScreenState extends State<OtpScreen> {
                               builder: (_, ResendOtpState state) {
                                 return InkWell(
                                   onTap: () {
+                                    ScaffoldMessenger.of(context)
+                                        .hideCurrentSnackBar();
+
                                     resendOtpBloc.add(ResendOtpAttempt(
                                         userName: widget.email));
                                   },
@@ -200,6 +221,9 @@ class _OtpScreenState extends State<OtpScreen> {
                         });
                       }
                       if (state is ValidateOtpLoaded) {
+                        setState(() {
+                          isLoading = false;
+                        });
                         Navigator.pushNamed(
                             context, StringRouterUtil.changePwdScreenRoute,
                             arguments: widget.email);
@@ -209,13 +233,28 @@ class _OtpScreenState extends State<OtpScreen> {
                         setState(() {
                           isLoading = false;
                         });
+                        if (state.error!
+                            .toLowerCase()
+                            .contains('please try again in')) {
+                          Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              StringRouterUtil.loginScreenRoute,
+                              (route) => false);
+                        }
                       }
                       if (state is ValidateOtpException) {
-                        GeneralUtil().showSnackBarError(
-                            context, 'Terjadi Kesalahan Sistem');
+                        GeneralUtil().showSnackBarError(context, state.error);
                         setState(() {
                           isLoading = false;
                         });
+                        if (state.error
+                            .toLowerCase()
+                            .contains('please try again in')) {
+                          Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              StringRouterUtil.loginScreenRoute,
+                              (route) => false);
+                        }
                       }
                     },
                     child: BlocBuilder(
@@ -232,6 +271,9 @@ class _OtpScreenState extends State<OtpScreen> {
                               : InkWell(
                                   onTap: enable
                                       ? () {
+                                          ScaffoldMessenger.of(context)
+                                              .hideCurrentSnackBar();
+
                                           validateOtpBloc
                                               .add(ValidateOtpAttempt(
                                             otpValidateRequestModel:

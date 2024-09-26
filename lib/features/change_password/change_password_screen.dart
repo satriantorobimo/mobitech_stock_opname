@@ -66,14 +66,13 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     ],
                   ),
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.06),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 48.0),
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.37,
-                      child: Text('Change Password',
+                      child: Text('Change\nPassword',
                           style: TextStyle(
                               fontFamily: GoogleFonts.nunito().fontFamily,
                               fontSize: 40,
@@ -82,7 +81,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     ),
                   ),
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.07),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.05),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 48),
                   child: Column(
@@ -345,6 +344,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         GeneralUtil().showSnackBarSuccess(
                             context, 'Change Password Successfully');
                         Future.delayed(const Duration(milliseconds: 500), () {
+                          setState(() {
+                            isLoading = false;
+                          });
+                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
                           Navigator.pushNamedAndRemoveUntil(
                               context,
                               StringRouterUtil.loginScreenRoute,
@@ -358,8 +361,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         });
                       }
                       if (state is ChangePasswordException) {
-                        GeneralUtil().showSnackBarError(
-                            context, 'Terjadi Kesalahan Sistem');
+                        GeneralUtil().showSnackBarError(context, state.error);
                         setState(() {
                           isLoading = false;
                         });
@@ -379,6 +381,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                               : InkWell(
                                   onTap: isCorrect && isSame
                                       ? () {
+                                          ScaffoldMessenger.of(context)
+                                              .hideCurrentSnackBar();
+
                                           changePasswordBloc.add(
                                               ChangePasswordAttempt(
                                                   changePasswordRequestModel:

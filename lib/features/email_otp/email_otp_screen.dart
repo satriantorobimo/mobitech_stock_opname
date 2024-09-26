@@ -116,6 +116,9 @@ class _EmailOtpScreenState extends State<EmailOtpScreen> {
                             });
                           }
                           if (state is ReqChangePasswordLoaded) {
+                            setState(() {
+                              isLoading = false;
+                            });
                             Navigator.pushNamed(
                                 context, StringRouterUtil.otpScreenRoute,
                                 arguments: _usernameCtrl.text);
@@ -126,13 +129,29 @@ class _EmailOtpScreenState extends State<EmailOtpScreen> {
                             setState(() {
                               isLoading = false;
                             });
+                            if (state.error!
+                                .toLowerCase()
+                                .contains('please try again in')) {
+                              Navigator.pushNamedAndRemoveUntil(
+                                  context,
+                                  StringRouterUtil.loginScreenRoute,
+                                  (route) => false);
+                            }
                           }
                           if (state is ReqChangePasswordException) {
-                            GeneralUtil().showSnackBarError(
-                                context, 'Terjadi Kesalahan Sistem');
+                            GeneralUtil()
+                                .showSnackBarError(context, state.error);
                             setState(() {
                               isLoading = false;
                             });
+                            if (state.error
+                                .toLowerCase()
+                                .contains('please try again in')) {
+                              Navigator.pushNamedAndRemoveUntil(
+                                  context,
+                                  StringRouterUtil.loginScreenRoute,
+                                  (route) => false);
+                            }
                           }
                         },
                         child: BlocBuilder(
@@ -149,6 +168,9 @@ class _EmailOtpScreenState extends State<EmailOtpScreen> {
                                   : InkWell(
                                       onTap: enable
                                           ? () {
+                                              ScaffoldMessenger.of(context)
+                                                  .hideCurrentSnackBar();
+
                                               changePasswordBloc.add(
                                                   ReqChangePasswordAttempt(
                                                       userName:

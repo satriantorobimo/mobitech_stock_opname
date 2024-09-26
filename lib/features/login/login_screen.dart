@@ -178,8 +178,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             });
                           }
                           if (state is LoginException) {
-                            GeneralUtil().showSnackBarError(
-                                context, 'Terjadi Kesalahan Sistem');
+                            GeneralUtil()
+                                .showSnackBarError(context, state.error);
                             setState(() {
                               isLoading = false;
                             });
@@ -199,6 +199,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                   : InkWell(
                                       onTap: enable
                                           ? () {
+                                              ScaffoldMessenger.of(context)
+                                                  .hideCurrentSnackBar();
+
                                               loginBloc.add(LoginAttempt(
                                                   loginRequestModel:
                                                       LoginRequestModel(

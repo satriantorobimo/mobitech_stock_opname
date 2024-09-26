@@ -159,8 +159,8 @@ class _AssetOpnameScreenState extends State<AssetOpnameScreen> {
                             });
                           }
                           if (state is AssetGrowException) {
-                            GeneralUtil().showSnackBarError(
-                                context, 'Terjadi Kesalahan Sistem');
+                            GeneralUtil()
+                                .showSnackBarError(context, state.error);
                             setState(() {
                               isLoading = false;
                             });

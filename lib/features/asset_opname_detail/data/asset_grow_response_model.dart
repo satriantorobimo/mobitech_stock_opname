@@ -62,8 +62,8 @@ class Data {
   String? engineNo;
   String? lastMiles;
   String? cylinderCapacity;
-  String? fuelTypeName;
   String? fuelTypeCode;
+  String? fuelTypeName;
   String? passengerCapacity;
   String? platNo;
   String? spbpkbNo;
@@ -192,12 +192,11 @@ class Data {
   String? vendorEmail;
   String? vendorContractStartDate;
   String? vendorContractEndDate;
-  String? vendorContractStartDateUi;
-  String? vendorContractEndDateUi;
   String? isWarranty;
   String? isVendorWarranty;
   String? isFactoryWarranty;
   String? isMaintenance;
+  String? isAuthorizedWorkshop;
   String? isInsured;
   String? isReserved;
   String? isDepre;
@@ -212,15 +211,48 @@ class Data {
   double? totalDepreFiscal;
   String? deprePeriodFiscal;
   double? netBookValueFiscal;
-
+  String? saleDate;
   double? saleAmount;
+  String? disposalDate;
   String? typeAndCategoryName;
+  String? vendorWarrantyPeriodTypeCode;
+  String? vendorWarrantyPeriodTypeName;
+  String? vendorWarrantyFrequencyTypeCode;
+  String? vendorWarrantyFrequencyTypeName;
+  String? vendorWarrantyFrequencyTypeUnit;
+  int? vendorWarrantyPeriod;
+  String? vendorWarrantyStartDate;
+  String? vendorWarrantyEndDate;
   String? factoryWarrantyPeriodTypeCode;
   String? factoryWarrantyPeriodTypeName;
   String? factoryWarrantyFrequencyTypeCode;
+  String? factoryWarrantyFrequencyTypeName;
+  String? factoryWarrantyFrequencyTypeUnit;
   int? factoryWarrantyPeriod;
   String? factoryWarrantyStartDate;
-
+  String? factoryWarrantyEndDate;
+  String? maintenanceTypeCode;
+  String? maintenanceTypeName;
+  String? maintenanceFrequencyCode;
+  String? maintenanceFrequencyName;
+  String? maintenanceFrequencyUnit;
+  int? maintenancePeriod;
+  String? maintenanceStartDate;
+  String? maintenanceEndDate;
+  String? workshopCode;
+  String? workshopName;
+  String? workshopAddress;
+  String? workshopZipCode;
+  String? workshopPostalCode;
+  String? workshopProvinceCode;
+  String? workshopProvinceName;
+  String? workshopCityCode;
+  String? workshopCityName;
+  String? workshopDistrict;
+  String? workshopSubDistrict;
+  String? workshopContactName;
+  String? workshopContactPhone;
+  String? workshopContactEmail;
   String? longitude;
   String? latitude;
   double? averageRating;
@@ -230,9 +262,32 @@ class Data {
   String? assetCodeVisibilityCode;
   int? numberOfCoverage;
   String? coverageType;
+  String? assetCode;
+  String? assetSpecification;
+  String? imei;
+  String? serialNo;
+  int? star1;
+  int? star2;
+  int? star3;
+  int? star4;
+  int? star5;
+  String? vendorContractEndDateUi;
+  String? vendorContractStartDateUi;
 
   Data(
-      {this.code,
+      {this.assetCode,
+      this.assetSpecification,
+      this.imei,
+      this.isAuthorizedWorkshop,
+      this.serialNo,
+      this.star1,
+      this.star2,
+      this.star3,
+      this.star4,
+      this.star5,
+      this.vendorContractEndDateUi,
+      this.vendorContractStartDateUi,
+      this.code,
       this.reffModule,
       this.sourceCode,
       this.sourceName,
@@ -259,8 +314,8 @@ class Data {
       this.engineNo,
       this.lastMiles,
       this.cylinderCapacity,
-      this.fuelTypeName,
       this.fuelTypeCode,
+      this.fuelTypeName,
       this.passengerCapacity,
       this.platNo,
       this.spbpkbNo,
@@ -389,8 +444,6 @@ class Data {
       this.vendorEmail,
       this.vendorContractStartDate,
       this.vendorContractEndDate,
-      this.vendorContractStartDateUi,
-      this.vendorContractEndDateUi,
       this.isWarranty,
       this.isVendorWarranty,
       this.isFactoryWarranty,
@@ -409,13 +462,48 @@ class Data {
       this.totalDepreFiscal,
       this.deprePeriodFiscal,
       this.netBookValueFiscal,
+      this.saleDate,
       this.saleAmount,
+      this.disposalDate,
       this.typeAndCategoryName,
+      this.vendorWarrantyPeriodTypeCode,
+      this.vendorWarrantyPeriodTypeName,
+      this.vendorWarrantyFrequencyTypeCode,
+      this.vendorWarrantyFrequencyTypeName,
+      this.vendorWarrantyFrequencyTypeUnit,
+      this.vendorWarrantyPeriod,
+      this.vendorWarrantyStartDate,
+      this.vendorWarrantyEndDate,
       this.factoryWarrantyPeriodTypeCode,
       this.factoryWarrantyPeriodTypeName,
       this.factoryWarrantyFrequencyTypeCode,
+      this.factoryWarrantyFrequencyTypeName,
+      this.factoryWarrantyFrequencyTypeUnit,
       this.factoryWarrantyPeriod,
       this.factoryWarrantyStartDate,
+      this.factoryWarrantyEndDate,
+      this.maintenanceTypeCode,
+      this.maintenanceTypeName,
+      this.maintenanceFrequencyCode,
+      this.maintenanceFrequencyName,
+      this.maintenanceFrequencyUnit,
+      this.maintenancePeriod,
+      this.maintenanceStartDate,
+      this.maintenanceEndDate,
+      this.workshopCode,
+      this.workshopName,
+      this.workshopAddress,
+      this.workshopZipCode,
+      this.workshopPostalCode,
+      this.workshopProvinceCode,
+      this.workshopProvinceName,
+      this.workshopCityCode,
+      this.workshopCityName,
+      this.workshopDistrict,
+      this.workshopSubDistrict,
+      this.workshopContactName,
+      this.workshopContactPhone,
+      this.workshopContactEmail,
       this.longitude,
       this.latitude,
       this.averageRating,
@@ -427,6 +515,17 @@ class Data {
       this.coverageType});
 
   Data.fromJson(Map<String, dynamic> json) {
+    assetCode = json['asset_code'];
+    assetSpecification = json['asset_specification'];
+    imei = json['imei'];
+    serialNo = json['serial_no'];
+    star1 = json['star_1'];
+    star2 = json['star_2'];
+    star3 = json['star_3'];
+    star4 = json['star_4'];
+    star5 = json['star_5'];
+    vendorContractEndDateUi = json['vendor_contract_end_date_ui'];
+    vendorContractStartDateUi = json['vendor_contract_start_date_ui'];
     code = json['code'];
     reffModule = json['reff_module'];
     sourceCode = json['source_code'];
@@ -454,8 +553,8 @@ class Data {
     engineNo = json['engine_no'];
     lastMiles = json['last_miles'];
     cylinderCapacity = json['cylinder_capacity'];
-    fuelTypeName = json['fuel_type_name'];
     fuelTypeCode = json['fuel_type_code'];
+    fuelTypeName = json['fuel_type_name'];
     passengerCapacity = json['passenger_capacity'];
     platNo = json['plat_no'];
     spbpkbNo = json['spbpkb_no'];
@@ -584,12 +683,11 @@ class Data {
     vendorEmail = json['vendor_email'];
     vendorContractStartDate = json['vendor_contract_start_date'];
     vendorContractEndDate = json['vendor_contract_end_date'];
-    vendorContractStartDateUi = json['vendor_contract_start_date_ui'];
-    vendorContractEndDateUi = json['vendor_contract_end_date_ui'];
     isWarranty = json['is_warranty'];
     isVendorWarranty = json['is_vendor_warranty'];
     isFactoryWarranty = json['is_factory_warranty'];
     isMaintenance = json['is_maintenance'];
+    isAuthorizedWorkshop = json['is_authorized_workshop'];
     isInsured = json['is_insured'];
     isReserved = json['is_reserved'];
     isDepre = json['is_depre'];
@@ -604,18 +702,54 @@ class Data {
     totalDepreFiscal = json['total_depre_fiscal'];
     deprePeriodFiscal = json['depre_period_fiscal'];
     netBookValueFiscal = json['net_book_value_fiscal'];
-
+    saleDate = json['sale_date'];
     saleAmount = json['sale_amount'];
-
+    disposalDate = json['disposal_date'];
     typeAndCategoryName = json['type_and_category_name'];
-
+    vendorWarrantyPeriodTypeCode = json['vendor_warranty_period_type_code'];
+    vendorWarrantyPeriodTypeName = json['vendor_warranty_period_type_name'];
+    vendorWarrantyFrequencyTypeCode =
+        json['vendor_warranty_frequency_type_code'];
+    vendorWarrantyFrequencyTypeName =
+        json['vendor_warranty_frequency_type_name'];
+    vendorWarrantyFrequencyTypeUnit =
+        json['vendor_warranty_frequency_type_unit'];
+    vendorWarrantyPeriod = json['vendor_warranty_period'];
+    vendorWarrantyStartDate = json['vendor_warranty_start_date'];
+    vendorWarrantyEndDate = json['vendor_warranty_end_date'];
     factoryWarrantyPeriodTypeCode = json['factory_warranty_period_type_code'];
     factoryWarrantyPeriodTypeName = json['factory_warranty_period_type_name'];
     factoryWarrantyFrequencyTypeCode =
         json['factory_warranty_frequency_type_code'];
+    factoryWarrantyFrequencyTypeName =
+        json['factory_warranty_frequency_type_name'];
+    factoryWarrantyFrequencyTypeUnit =
+        json['factory_warranty_frequency_type_unit'];
     factoryWarrantyPeriod = json['factory_warranty_period'];
     factoryWarrantyStartDate = json['factory_warranty_start_date'];
-
+    factoryWarrantyEndDate = json['factory_warranty_end_date'];
+    maintenanceTypeCode = json['maintenance_type_code'];
+    maintenanceTypeName = json['maintenance_type_name'];
+    maintenanceFrequencyCode = json['maintenance_frequency_code'];
+    maintenanceFrequencyName = json['maintenance_frequency_name'];
+    maintenanceFrequencyUnit = json['maintenance_frequency_unit'];
+    maintenancePeriod = json['maintenance_period'];
+    maintenanceStartDate = json['maintenance_start_date'];
+    maintenanceEndDate = json['maintenance_end_date'];
+    workshopCode = json['workshop_code'];
+    workshopName = json['workshop_name'];
+    workshopAddress = json['workshop_address'];
+    workshopZipCode = json['workshop_zip_code'];
+    workshopPostalCode = json['workshop_postal_code'];
+    workshopProvinceCode = json['workshop_province_code'];
+    workshopProvinceName = json['workshop_province_name'];
+    workshopCityCode = json['workshop_city_code'];
+    workshopCityName = json['workshop_city_name'];
+    workshopDistrict = json['workshop_district'];
+    workshopSubDistrict = json['workshop_sub_district'];
+    workshopContactName = json['workshop_contact_name'];
+    workshopContactPhone = json['workshop_contact_phone'];
+    workshopContactEmail = json['workshop_contact_email'];
     longitude = json['longitude'];
     latitude = json['latitude'];
     averageRating = json['average_rating'];
@@ -629,6 +763,17 @@ class Data {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    data['asset_code'] = assetCode;
+    data['asset_specification'] = assetSpecification;
+    data['imei'] = imei;
+    data['serial_no'] = serialNo;
+    data['star_1'] = star1;
+    data['star_2'] = star2;
+    data['star_3'] = star3;
+    data['star_4'] = star4;
+    data['star_5'] = star5;
+    data['vendor_contract_end_date_ui'] = vendorContractEndDateUi;
+    data['vendor_contract_start_date_ui'] = vendorContractStartDateUi;
     data['code'] = code;
     data['reff_module'] = reffModule;
     data['source_code'] = sourceCode;
@@ -656,8 +801,8 @@ class Data {
     data['engine_no'] = engineNo;
     data['last_miles'] = lastMiles;
     data['cylinder_capacity'] = cylinderCapacity;
-    data['fuel_type_name'] = fuelTypeName;
     data['fuel_type_code'] = fuelTypeCode;
+    data['fuel_type_name'] = fuelTypeName;
     data['passenger_capacity'] = passengerCapacity;
     data['plat_no'] = platNo;
     data['spbpkb_no'] = spbpkbNo;
@@ -786,12 +931,11 @@ class Data {
     data['vendor_email'] = vendorEmail;
     data['vendor_contract_start_date'] = vendorContractStartDate;
     data['vendor_contract_end_date'] = vendorContractEndDate;
-    data['vendor_contract_start_date_ui'] = vendorContractStartDateUi;
-    data['vendor_contract_end_date_ui'] = vendorContractEndDateUi;
     data['is_warranty'] = isWarranty;
     data['is_vendor_warranty'] = isVendorWarranty;
     data['is_factory_warranty'] = isFactoryWarranty;
     data['is_maintenance'] = isMaintenance;
+    data['is_authorized_workshop'] = isAuthorizedWorkshop;
     data['is_insured'] = isInsured;
     data['is_reserved'] = isReserved;
     data['is_depre'] = isDepre;
@@ -806,18 +950,54 @@ class Data {
     data['total_depre_fiscal'] = totalDepreFiscal;
     data['depre_period_fiscal'] = deprePeriodFiscal;
     data['net_book_value_fiscal'] = netBookValueFiscal;
-
+    data['sale_date'] = saleDate;
     data['sale_amount'] = saleAmount;
-
+    data['disposal_date'] = disposalDate;
     data['type_and_category_name'] = typeAndCategoryName;
-
+    data['vendor_warranty_period_type_code'] = vendorWarrantyPeriodTypeCode;
+    data['vendor_warranty_period_type_name'] = vendorWarrantyPeriodTypeName;
+    data['vendor_warranty_frequency_type_code'] =
+        vendorWarrantyFrequencyTypeCode;
+    data['vendor_warranty_frequency_type_name'] =
+        vendorWarrantyFrequencyTypeName;
+    data['vendor_warranty_frequency_type_unit'] =
+        vendorWarrantyFrequencyTypeUnit;
+    data['vendor_warranty_period'] = vendorWarrantyPeriod;
+    data['vendor_warranty_start_date'] = vendorWarrantyStartDate;
+    data['vendor_warranty_end_date'] = vendorWarrantyEndDate;
     data['factory_warranty_period_type_code'] = factoryWarrantyPeriodTypeCode;
     data['factory_warranty_period_type_name'] = factoryWarrantyPeriodTypeName;
     data['factory_warranty_frequency_type_code'] =
         factoryWarrantyFrequencyTypeCode;
+    data['factory_warranty_frequency_type_name'] =
+        factoryWarrantyFrequencyTypeName;
+    data['factory_warranty_frequency_type_unit'] =
+        factoryWarrantyFrequencyTypeUnit;
     data['factory_warranty_period'] = factoryWarrantyPeriod;
     data['factory_warranty_start_date'] = factoryWarrantyStartDate;
-
+    data['factory_warranty_end_date'] = factoryWarrantyEndDate;
+    data['maintenance_type_code'] = maintenanceTypeCode;
+    data['maintenance_type_name'] = maintenanceTypeName;
+    data['maintenance_frequency_code'] = maintenanceFrequencyCode;
+    data['maintenance_frequency_name'] = maintenanceFrequencyName;
+    data['maintenance_frequency_unit'] = maintenanceFrequencyUnit;
+    data['maintenance_period'] = maintenancePeriod;
+    data['maintenance_start_date'] = maintenanceStartDate;
+    data['maintenance_end_date'] = maintenanceEndDate;
+    data['workshop_code'] = workshopCode;
+    data['workshop_name'] = workshopName;
+    data['workshop_address'] = workshopAddress;
+    data['workshop_zip_code'] = workshopZipCode;
+    data['workshop_postal_code'] = workshopPostalCode;
+    data['workshop_province_code'] = workshopProvinceCode;
+    data['workshop_province_name'] = workshopProvinceName;
+    data['workshop_city_code'] = workshopCityCode;
+    data['workshop_city_name'] = workshopCityName;
+    data['workshop_district'] = workshopDistrict;
+    data['workshop_sub_district'] = workshopSubDistrict;
+    data['workshop_contact_name'] = workshopContactName;
+    data['workshop_contact_phone'] = workshopContactPhone;
+    data['workshop_contact_email'] = workshopContactEmail;
     data['longitude'] = longitude;
     data['latitude'] = latitude;
     data['average_rating'] = averageRating;

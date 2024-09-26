@@ -163,10 +163,24 @@ class _OtpLoginScreenState extends State<OtpLoginScreen> {
                             if (state is ResendOtpError) {
                               GeneralUtil()
                                   .showSnackBarError(context, state.error!);
+                              if (state.error!.toLowerCase().contains(
+                                  'please contact your it department for unlock')) {
+                                Navigator.pushNamedAndRemoveUntil(
+                                    context,
+                                    StringRouterUtil.loginScreenRoute,
+                                    (route) => false);
+                              }
                             }
                             if (state is ResendOtpException) {
-                              GeneralUtil().showSnackBarError(
-                                  context, 'Terjadi Kesalahan Sistem');
+                              GeneralUtil()
+                                  .showSnackBarError(context, state.error);
+                              if (state.error.toLowerCase().contains(
+                                  'please contact your it department for unlock')) {
+                                Navigator.pushNamedAndRemoveUntil(
+                                    context,
+                                    StringRouterUtil.loginScreenRoute,
+                                    (route) => false);
+                              }
                             }
                           },
                           child: BlocBuilder(
@@ -174,6 +188,8 @@ class _OtpLoginScreenState extends State<OtpLoginScreen> {
                               builder: (_, ResendOtpState state) {
                                 return InkWell(
                                   onTap: () {
+                                    ScaffoldMessenger.of(context)
+                                        .hideCurrentSnackBar();
                                     resendOtpBloc.add(ResendOtpAttempt(
                                         userName: widget.email));
                                   },
@@ -209,6 +225,9 @@ class _OtpLoginScreenState extends State<OtpLoginScreen> {
                             'uid', state.loginResponseModel.datalist![0].uid!);
                         SharedPrefUtil.saveSharedString('company',
                             state.loginResponseModel.datalist![0].companyCode!);
+                        setState(() {
+                          isLoading = false;
+                        });
                         Navigator.pushNamedAndRemoveUntil(
                             context,
                             StringRouterUtil.navbarScreenRoute,
@@ -219,13 +238,32 @@ class _OtpLoginScreenState extends State<OtpLoginScreen> {
                         setState(() {
                           isLoading = false;
                         });
+                        if (state.error!.toLowerCase().contains(
+                                'please contact your it department for unlock') ||
+                            state.error!
+                                .toLowerCase()
+                                .contains('tried maximum attempt')) {
+                          Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              StringRouterUtil.loginScreenRoute,
+                              (route) => false);
+                        }
                       }
                       if (state is ValidateOtpException) {
-                        GeneralUtil().showSnackBarError(
-                            context, 'Terjadi Kesalahan Sistem');
+                        GeneralUtil().showSnackBarError(context, state.error);
                         setState(() {
                           isLoading = false;
                         });
+                        if (state.error.toLowerCase().contains(
+                                'please contact your it department for unlock') ||
+                            state.error
+                                .toLowerCase()
+                                .contains('tried maximum attempt')) {
+                          Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              StringRouterUtil.loginScreenRoute,
+                              (route) => false);
+                        }
                       }
                     },
                     child: BlocBuilder(
@@ -242,6 +280,8 @@ class _OtpLoginScreenState extends State<OtpLoginScreen> {
                               : InkWell(
                                   onTap: enable
                                       ? () {
+                                          ScaffoldMessenger.of(context)
+                                              .hideCurrentSnackBar();
                                           validateOtpBloc
                                               .add(ValidateOtpAttempt(
                                             otpValidateRequestModel:

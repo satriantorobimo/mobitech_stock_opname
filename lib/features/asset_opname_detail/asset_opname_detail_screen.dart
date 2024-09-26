@@ -1,6 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mobile_stock_opname/features/asset_opname_detail/content_data_widget.dart';
 import 'package:mobile_stock_opname/features/asset_opname_detail/data/arguments_asset_grow.dart';
+import 'package:mobile_stock_opname/features/asset_opname_detail/data/data_content.dart';
 import 'package:mobile_stock_opname/utility/string_router_util.dart';
 
 class AssetOpnameDetailScreen extends StatefulWidget {
@@ -13,98 +17,278 @@ class AssetOpnameDetailScreen extends StatefulWidget {
 }
 
 class _AssetOpnameDetailScreenState extends State<AssetOpnameDetailScreen> {
-  final TextEditingController _itemCtrl = TextEditingController();
-  final TextEditingController _typeCategoryCtrl = TextEditingController();
-  final TextEditingController _merkModelTypeCtrl = TextEditingController();
-  final TextEditingController _colourCtrl = TextEditingController();
-  final TextEditingController _manufactureYearCtrl = TextEditingController();
-  final TextEditingController _chasisCtrl = TextEditingController();
-  final TextEditingController _engineCtrl = TextEditingController();
-  final TextEditingController _cynlinderCtrl = TextEditingController();
-  final TextEditingController _fuelTypeCtrl = TextEditingController();
-  final TextEditingController _passangerCapacityCtrl = TextEditingController();
-  final TextEditingController _licensePlateCtrl = TextEditingController();
-  final TextEditingController _bpkbNoCtrl = TextEditingController();
-  final TextEditingController _stnkNoCtrl = TextEditingController();
-  final TextEditingController _stnkTaxDateCtrl = TextEditingController();
-  final TextEditingController _stnkExpDateCtrl = TextEditingController();
-  final TextEditingController _insuredCtrl = TextEditingController();
-  final TextEditingController _coverageTypeCtrl = TextEditingController();
-  final TextEditingController _factoryWarrantyCtrl = TextEditingController();
-  final TextEditingController _vendorWarrantyCtrl = TextEditingController();
-  final TextEditingController _maintenanceRoutineCtrl = TextEditingController();
-  final TextEditingController _purchaseDateCtrl = TextEditingController();
-  final TextEditingController _purchasAssetCondition = TextEditingController();
-  final TextEditingController _poNoPoDateCtrl = TextEditingController();
-  final TextEditingController _grnNoGrnDateCtrl = TextEditingController();
-  final TextEditingController _invNoInvDateCtrl = TextEditingController();
-  final TextEditingController _vendorCtrl = TextEditingController();
-  final TextEditingController _vendorRatingCtrl = TextEditingController();
-  final TextEditingController _depreciationCtrl = TextEditingController();
-  final TextEditingController _assetLocationCtrl = TextEditingController();
+  List<DataContent> dataContent = [];
 
   @override
   void initState() {
     setState(() {
-      _itemCtrl.text =
-          '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].code!} - ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].itemName!}';
-      _typeCategoryCtrl.text =
-          '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].typeAndCategoryName!} - ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].itemName!}';
-      _merkModelTypeCtrl.text =
-          '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].merkName!} - ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].modelName!} - ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].typeName!}';
-      _colourCtrl.text =
-          widget.argumentsAssetGrow.assetGrowResponseModel.data![0].colourName!;
-      _manufactureYearCtrl.text = widget.argumentsAssetGrow
-          .assetGrowResponseModel.data![0].manufacturingYear!;
-      _chasisCtrl.text =
-          widget.argumentsAssetGrow.assetGrowResponseModel.data![0].chassisNo!;
-      _engineCtrl.text =
-          widget.argumentsAssetGrow.assetGrowResponseModel.data![0].engineNo!;
-      _cynlinderCtrl.text = widget
-          .argumentsAssetGrow.assetGrowResponseModel.data![0].cylinderCapacity!;
-      _fuelTypeCtrl.text = widget
-          .argumentsAssetGrow.assetGrowResponseModel.data![0].fuelTypeCode!;
-      _passangerCapacityCtrl.text = widget.argumentsAssetGrow
-          .assetGrowResponseModel.data![0].passengerCapacity!;
-      _licensePlateCtrl.text =
-          widget.argumentsAssetGrow.assetGrowResponseModel.data![0].platNo!;
-      _bpkbNoCtrl.text =
-          widget.argumentsAssetGrow.assetGrowResponseModel.data![0].bpkbNo!;
-      _stnkNoCtrl.text =
-          widget.argumentsAssetGrow.assetGrowResponseModel.data![0].stnkNo!;
-      _stnkTaxDateCtrl.text = widget
-          .argumentsAssetGrow.assetGrowResponseModel.data![0].stnkTaxDate!;
-      _stnkExpDateCtrl.text = widget
-          .argumentsAssetGrow.assetGrowResponseModel.data![0].stnkExpiredDate!;
-      _insuredCtrl.text =
-          '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].isInsured!} - year';
-      _coverageTypeCtrl.text = widget
-          .argumentsAssetGrow.assetGrowResponseModel.data![0].coverageType!;
-      _factoryWarrantyCtrl.text = widget.argumentsAssetGrow
-          .assetGrowResponseModel.data![0].factoryWarrantyPeriodTypeName!;
-      _vendorWarrantyCtrl.text = widget
-          .argumentsAssetGrow.assetGrowResponseModel.data![0].isVendorWarranty!;
-      _maintenanceRoutineCtrl.text =
-          '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].stnkExpiredDate!} - ';
-      _purchaseDateCtrl.text = widget
-          .argumentsAssetGrow.assetGrowResponseModel.data![0].purchaseDate!;
-      _purchasAssetCondition.text =
-          widget.argumentsAssetGrow.assetGrowResponseModel.data![0].condition!;
-      _poNoPoDateCtrl.text =
-          '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].purchaseOrderNo!} | ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].purchaseDate!}';
-      _grnNoGrnDateCtrl.text =
-          '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].grnNo!} | ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].grnDate!}';
-      _invNoInvDateCtrl.text =
-          '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].invoiceNo!} | ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].invoiceDate!}';
-      _vendorCtrl.text =
-          widget.argumentsAssetGrow.assetGrowResponseModel.data![0].vendorName!;
-      _vendorRatingCtrl.text = widget
-          .argumentsAssetGrow.assetGrowResponseModel.data![0].averageRating!
-          .toString();
-      _depreciationCtrl.text = widget.argumentsAssetGrow.assetGrowResponseModel
-          .data![0].depreCategoryCommName!;
-      _assetLocationCtrl.text = widget
-          .argumentsAssetGrow.assetGrowResponseModel.data![0].locationName!;
+      if (widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
+              .assetTypeCode ==
+          'VHCL') {
+        setState(() {
+          dataContent.add(DataContent(
+              'Item',
+              '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].code!} - ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].itemName!}',
+              false));
+          dataContent.add(DataContent(
+              'FA Type & Category',
+              '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].typeAndCategoryName!} - ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].itemName!}',
+              false));
+          dataContent.add(DataContent(
+              'Merk - Model - Type',
+              '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].merkName!} - ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].modelName!} - ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].typeName!}',
+              false));
+          dataContent.add(DataContent(
+              'Colour',
+              widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
+                  .colourName!,
+              false));
+          dataContent.add(DataContent(
+              'Manufacturing Year',
+              widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
+                  .manufacturingYear!,
+              false));
+          dataContent.add(DataContent(
+              'Chasis No.',
+              widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
+                  .chassisNo!,
+              false));
+          dataContent.add(DataContent(
+              'Engine No.',
+              widget
+                  .argumentsAssetGrow.assetGrowResponseModel.data![0].engineNo!,
+              false));
+          dataContent.add(DataContent(
+              'Cylinder Capacity',
+              widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
+                  .cylinderCapacity!,
+              false));
+          dataContent.add(DataContent(
+              'Fuel Type',
+              widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
+                  .fuelTypeCode!,
+              false));
+          dataContent.add(DataContent(
+              'Passenger Capacity',
+              widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
+                  .passengerCapacity!,
+              false));
+          dataContent.add(DataContent(
+              'License Plate',
+              widget.argumentsAssetGrow.assetGrowResponseModel.data![0].platNo!,
+              false));
+          dataContent.add(DataContent(
+              'BPKB No. / SPPBPKB',
+              '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].bpkbNo!} / ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].spbpkbNo!}',
+              false));
+          dataContent.add(DataContent(
+              'STNK No.',
+              widget.argumentsAssetGrow.assetGrowResponseModel.data![0].stnkNo!,
+              false));
+          dataContent.add(DataContent(
+              'STNK Tax Date',
+              widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
+                  .stnkTaxDate!,
+              false));
+          dataContent.add(DataContent(
+              'STNK Exp. Date',
+              widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
+                  .stnkExpiredDate!,
+              false));
+          dataContent.add(DataContent(
+              'Insured',
+              '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].isInsured!} - ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].numberOfCoverage!} year',
+              false));
+          dataContent.add(DataContent(
+              'Coverage Type',
+              widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
+                  .coverageType!,
+              false));
+          dataContent.add(DataContent(
+              'Factory Warranty',
+              widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
+                          .factoryWarrantyPeriodTypeName!
+                          .toUpperCase() ==
+                      'PERIODIC'
+                  ? '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].factoryWarrantyPeriodTypeName!} |  ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].factoryWarrantyStartDate!} - ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].factoryWarrantyEndDate!}'
+                  : widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
+                              .factoryWarrantyPeriodTypeName!
+                              .toUpperCase() ==
+                          'LIFETIME'
+                      ? '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].factoryWarrantyPeriodTypeName!} |  ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].factoryWarrantyStartDate!}'
+                      : '-',
+              false));
+          dataContent.add(DataContent(
+              'Vendor Warranty',
+              widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
+                          .vendorWarrantyPeriodTypeName!
+                          .toUpperCase() ==
+                      'PERIODIC'
+                  ? '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].vendorWarrantyPeriodTypeName!} |  ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].vendorWarrantyStartDate!} - ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].vendorWarrantyEndDate!}'
+                  : widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
+                              .vendorWarrantyPeriodTypeName!
+                              .toUpperCase() ==
+                          'LIFETIME'
+                      ? '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].vendorWarrantyPeriodTypeName!} |  ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].vendorWarrantyStartDate!}'
+                      : '-',
+              false));
+          dataContent.add(DataContent(
+              'Maintenance Routine',
+              '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].maintenanceStartDate!} - ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].maintenanceEndDate!}',
+              false));
+          dataContent.add(DataContent(
+              'Purchasing Date',
+              widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
+                  .purchaseDate!,
+              false));
+          dataContent.add(DataContent(
+              'Purchase Asset Condition',
+              widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
+                  .condition!,
+              false));
+          dataContent.add(DataContent(
+              'PO No. & PO Date',
+              '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].purchaseOrderNo!} | ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].purchaseDate!}',
+              false));
+          dataContent.add(DataContent(
+              'GRN No. & GRN Date',
+              '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].grnNo!} | ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].grnDate!}',
+              false));
+          dataContent.add(DataContent(
+              'Invoice No. & Invoice Date',
+              '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].invoiceNo!} | ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].invoiceDate!}',
+              false));
+          dataContent.add(DataContent(
+              'Vendor',
+              widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
+                  .vendorName!,
+              false));
+          dataContent.add(DataContent(
+              'Vendor Rating',
+              widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
+                  .averageRating!
+                  .toString(),
+              false));
+          dataContent.add(DataContent(
+              'Depreciation',
+              '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].isDepre!} -  ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].methodTypeComm!}',
+              false));
+          dataContent.add(DataContent(
+              'Asset Location',
+              widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
+                  .locationName!,
+              true));
+        });
+      } else {
+        dataContent.add(DataContent(
+            'Item',
+            '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].code!} - ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].itemName!}',
+            false));
+        dataContent.add(DataContent(
+            'FA Type & Category',
+            '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].typeAndCategoryName!} - ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].itemName!}',
+            false));
+        dataContent.add(DataContent(
+            'Merk - Model - Type',
+            '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].merkName!} - ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].modelName!} - ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].typeName!}',
+            false));
+        dataContent.add(DataContent(
+            'Colour',
+            widget
+                .argumentsAssetGrow.assetGrowResponseModel.data![0].colourName!,
+            false));
+        dataContent.add(DataContent(
+            'Serial No.',
+            widget.argumentsAssetGrow.assetGrowResponseModel.data![0].serialNo!,
+            false));
+        dataContent.add(DataContent(
+            'IMEI',
+            widget.argumentsAssetGrow.assetGrowResponseModel.data![0].imei!,
+            false));
+        dataContent.add(DataContent(
+            'Insured',
+            widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
+                        .isInsured! ==
+                    'No'
+                ? widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
+                    .isInsured!
+                : '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].isInsured!} - ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].numberOfCoverage!} year',
+            false));
+        dataContent.add(DataContent(
+            'Factory Warranty',
+            widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
+                        .factoryWarrantyPeriodTypeName!
+                        .toUpperCase() ==
+                    'PERIODIC'
+                ? '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].factoryWarrantyPeriodTypeName!} |  ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].factoryWarrantyStartDate!} - ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].factoryWarrantyEndDate!}'
+                : widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
+                            .factoryWarrantyPeriodTypeName!
+                            .toUpperCase() ==
+                        'LIFETIME'
+                    ? '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].factoryWarrantyPeriodTypeName!} |  ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].factoryWarrantyStartDate!}'
+                    : '-',
+            false));
+        dataContent.add(DataContent(
+            'Vendor Warranty',
+            widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
+                        .vendorWarrantyPeriodTypeName!
+                        .toUpperCase() ==
+                    'PERIODIC'
+                ? '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].vendorWarrantyPeriodTypeName!} |  ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].vendorWarrantyStartDate!} - ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].vendorWarrantyEndDate!}'
+                : widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
+                            .vendorWarrantyPeriodTypeName!
+                            .toUpperCase() ==
+                        'LIFETIME'
+                    ? '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].vendorWarrantyPeriodTypeName!} |  ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].vendorWarrantyStartDate!}'
+                    : '-',
+            false));
+        dataContent.add(DataContent(
+            'Maintenance Routine',
+            '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].maintenanceStartDate!} - ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].maintenanceEndDate!}',
+            false));
+        dataContent.add(DataContent(
+            'Purchasing Date',
+            widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
+                .purchaseDate!,
+            false));
+        dataContent.add(DataContent(
+            'Purchase Asset Condition',
+            widget
+                .argumentsAssetGrow.assetGrowResponseModel.data![0].condition!,
+            false));
+        dataContent.add(DataContent(
+            'PO No. & PO Date',
+            '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].purchaseOrderNo!} | ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].purchaseDate!}',
+            false));
+        dataContent.add(DataContent(
+            'GRN No. & GRN Date',
+            '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].grnNo!} | ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].grnDate!}',
+            false));
+        dataContent.add(DataContent(
+            'Invoice No. & Invoice Date',
+            '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].invoiceNo!} | ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].invoiceDate!}',
+            false));
+        dataContent.add(DataContent(
+            'Vendor',
+            widget
+                .argumentsAssetGrow.assetGrowResponseModel.data![0].vendorName!,
+            false));
+        dataContent.add(DataContent(
+            'Vendor Rating',
+            widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
+                .averageRating!
+                .toString(),
+            false));
+        dataContent.add(DataContent(
+            'Depreciation',
+            '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].isDepre!} -  ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].methodTypeComm!}',
+            false));
+        dataContent.add(DataContent(
+            'Asset Location',
+            widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
+                .locationName!,
+            true));
+      }
     });
     super.initState();
   }
@@ -304,859 +488,68 @@ class _AssetOpnameDetailScreenState extends State<AssetOpnameDetailScreen> {
               const SizedBox(
                 height: 32,
               ),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Item',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              TextFormField(
-                controller: _itemCtrl,
-                readOnly: true,
-                style: const TextStyle(color: Colors.white),
-                keyboardType: TextInputType.text,
-                decoration: const InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.only(bottom: 16),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'FA Type & Category',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              TextFormField(
-                controller: _typeCategoryCtrl,
-                readOnly: true,
-                style: const TextStyle(color: Colors.white),
-                keyboardType: TextInputType.text,
-                decoration: const InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.only(bottom: 16),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Merk - Model - Type',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              TextFormField(
-                controller: _merkModelTypeCtrl,
-                readOnly: true,
-                style: const TextStyle(color: Colors.white),
-                keyboardType: TextInputType.text,
-                decoration: const InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.only(bottom: 16),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Colour',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              TextFormField(
-                controller: _colourCtrl,
-                readOnly: true,
-                style: const TextStyle(color: Colors.white),
-                keyboardType: TextInputType.text,
-                decoration: const InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.only(bottom: 16),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Manufacturing Year',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              TextFormField(
-                controller: _manufactureYearCtrl,
-                readOnly: true,
-                style: const TextStyle(color: Colors.white),
-                keyboardType: TextInputType.text,
-                decoration: const InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.only(bottom: 16),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Chasis No.',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              TextFormField(
-                controller: _chasisCtrl,
-                readOnly: true,
-                style: const TextStyle(color: Colors.white),
-                keyboardType: TextInputType.text,
-                decoration: const InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.only(bottom: 16),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Engine No.',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              TextFormField(
-                controller: _engineCtrl,
-                readOnly: true,
-                style: const TextStyle(color: Colors.white),
-                keyboardType: TextInputType.text,
-                decoration: const InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.only(bottom: 16),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Cylinder Capacity',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              TextFormField(
-                controller: _cynlinderCtrl,
-                readOnly: true,
-                style: const TextStyle(color: Colors.white),
-                keyboardType: TextInputType.text,
-                decoration: const InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.only(bottom: 16),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Fuel Type',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              TextFormField(
-                controller: _fuelTypeCtrl,
-                readOnly: true,
-                style: const TextStyle(color: Colors.white),
-                keyboardType: TextInputType.text,
-                decoration: const InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.only(bottom: 16),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Passenger Capacity',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              TextFormField(
-                controller: _passangerCapacityCtrl,
-                readOnly: true,
-                style: const TextStyle(color: Colors.white),
-                keyboardType: TextInputType.text,
-                decoration: const InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.only(bottom: 16),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'License Plate',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              TextFormField(
-                controller: _licensePlateCtrl,
-                readOnly: true,
-                style: const TextStyle(color: Colors.white),
-                keyboardType: TextInputType.text,
-                decoration: const InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.only(bottom: 16),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'BPKB No. / SPPBPKB',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              TextFormField(
-                controller: _bpkbNoCtrl,
-                readOnly: true,
-                style: const TextStyle(color: Colors.white),
-                keyboardType: TextInputType.text,
-                decoration: const InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.only(bottom: 16),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'STNK No.',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              TextFormField(
-                controller: _stnkNoCtrl,
-                readOnly: true,
-                style: const TextStyle(color: Colors.white),
-                keyboardType: TextInputType.text,
-                decoration: const InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.only(bottom: 16),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'STNK Tax Date',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              TextFormField(
-                controller: _stnkTaxDateCtrl,
-                readOnly: true,
-                style: const TextStyle(color: Colors.white),
-                keyboardType: TextInputType.text,
-                decoration: const InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.only(bottom: 16),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'STNK Exp. Date',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              TextFormField(
-                controller: _stnkExpDateCtrl,
-                readOnly: true,
-                style: const TextStyle(color: Colors.white),
-                keyboardType: TextInputType.text,
-                decoration: const InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.only(bottom: 16),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Insured',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              TextFormField(
-                controller: _insuredCtrl,
-                readOnly: true,
-                style: const TextStyle(color: Colors.white),
-                keyboardType: TextInputType.text,
-                decoration: const InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.only(bottom: 16),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Coverage Type',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              TextFormField(
-                controller: _coverageTypeCtrl,
-                readOnly: true,
-                style: const TextStyle(color: Colors.white),
-                keyboardType: TextInputType.text,
-                decoration: const InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.only(bottom: 16),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Factory Warranty',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              TextFormField(
-                controller: _factoryWarrantyCtrl,
-                readOnly: true,
-                style: const TextStyle(color: Colors.white),
-                keyboardType: TextInputType.text,
-                decoration: const InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.only(bottom: 16),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Vendor Warranty',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              TextFormField(
-                controller: _vendorWarrantyCtrl,
-                readOnly: true,
-                style: const TextStyle(color: Colors.white),
-                keyboardType: TextInputType.text,
-                decoration: const InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.only(bottom: 16),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Maintenance Routine',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              TextFormField(
-                controller: _maintenanceRoutineCtrl,
-                readOnly: true,
-                style: const TextStyle(color: Colors.white),
-                keyboardType: TextInputType.text,
-                decoration: const InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.only(bottom: 16),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Purchasing Date',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              TextFormField(
-                controller: _purchaseDateCtrl,
-                readOnly: true,
-                style: const TextStyle(color: Colors.white),
-                keyboardType: TextInputType.text,
-                decoration: const InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.only(bottom: 16),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Purchase Asset Condition',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              TextFormField(
-                controller: _purchasAssetCondition,
-                readOnly: true,
-                style: const TextStyle(color: Colors.white),
-                keyboardType: TextInputType.text,
-                decoration: const InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.only(bottom: 16),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'PO No. & PO Date',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              TextFormField(
-                controller: _poNoPoDateCtrl,
-                readOnly: true,
-                style: const TextStyle(color: Colors.white),
-                keyboardType: TextInputType.text,
-                decoration: const InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.only(bottom: 16),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'GRN No. & GRN Date',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              TextFormField(
-                controller: _grnNoGrnDateCtrl,
-                readOnly: true,
-                style: const TextStyle(color: Colors.white),
-                keyboardType: TextInputType.text,
-                decoration: const InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.only(bottom: 16),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Invoice No. & Invoice Date',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              TextFormField(
-                controller: _invNoInvDateCtrl,
-                readOnly: true,
-                style: const TextStyle(color: Colors.white),
-                keyboardType: TextInputType.text,
-                decoration: const InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.only(bottom: 16),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Vendor',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              TextFormField(
-                controller: _vendorCtrl,
-                readOnly: true,
-                style: const TextStyle(color: Colors.white),
-                keyboardType: TextInputType.text,
-                decoration: const InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.only(bottom: 16),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Vendor Rating',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              TextFormField(
-                controller: _vendorRatingCtrl,
-                readOnly: true,
-                style: const TextStyle(color: Colors.white),
-                keyboardType: TextInputType.text,
-                decoration: const InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.only(bottom: 16),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Depreciation',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              TextFormField(
-                controller: _depreciationCtrl,
-                readOnly: true,
-                style: const TextStyle(color: Colors.white),
-                keyboardType: TextInputType.text,
-                decoration: const InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.only(bottom: 16),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Asset Location',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              Stack(
-                children: [
-                  TextFormField(
-                    controller: _assetLocationCtrl,
-                    readOnly: true,
-                    style: const TextStyle(color: Colors.white),
-                    keyboardType: TextInputType.text,
-                    decoration: const InputDecoration(
-                      isDense: true,
-                      contentPadding: EdgeInsets.only(bottom: 16),
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Color(0xFFE6E7E8)),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    right: 8,
-                    top: 0,
-                    bottom: 8,
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: Image.asset(
-                        'assets/imgs/map.png',
-                        width: 40,
-                      ),
-                    ),
-                  )
-                ],
+              ListView.separated(
+                itemCount: dataContent.length,
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                separatorBuilder: (context, index) {
+                  return const SizedBox(
+                    height: 16,
+                  );
+                },
+                itemBuilder: (context, index) {
+                  return dataContent.isEmpty
+                      ? Container()
+                      : dataContent[index].isLocation == false
+                          ? ContentDataWidget(
+                              title: dataContent[index].title,
+                              content: dataContent[index].value)
+                          : Column(
+                              children: [
+                                Text(
+                                  dataContent[index].title,
+                                  style: const TextStyle(
+                                      fontSize: 18, color: Colors.white),
+                                ),
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                                Stack(
+                                  children: [
+                                    Container(
+                                      width: double.infinity,
+                                      padding: const EdgeInsets.only(bottom: 8),
+                                      decoration: const BoxDecoration(
+                                        border: Border(
+                                          bottom: BorderSide(
+                                              width: 1,
+                                              color: Color(0xFFE6E7E8)),
+                                        ),
+                                      ),
+                                      child: Text(
+                                        dataContent[index].value,
+                                        style: const TextStyle(
+                                            fontSize: 16,
+                                            color: Color(0xFFbfbfbf)),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      right: 8,
+                                      top: 0,
+                                      bottom: 8,
+                                      child: GestureDetector(
+                                        onTap: () {},
+                                        child: Image.asset(
+                                          'assets/imgs/map.png',
+                                          width: 40,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            );
+                },
               ),
               const SizedBox(
                 height: 24,
