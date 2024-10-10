@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pannable_rating_bar/flutter_pannable_rating_bar.dart';
 
 class ContentDataWidget extends StatelessWidget {
   final String title;
   final String content;
+  final double rating;
   const ContentDataWidget(
-      {super.key, required this.title, required this.content});
+      {super.key,
+      required this.title,
+      required this.content,
+      required this.rating});
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +31,31 @@ class ContentDataWidget extends StatelessWidget {
               bottom: BorderSide(width: 1, color: Color(0xFFE6E7E8)),
             ),
           ),
-          child: Text(
-            content,
-            style: const TextStyle(fontSize: 16, color: Color(0xFFbfbfbf)),
+          child: Row(
+            children: [
+              Text(
+                content,
+                style: const TextStyle(fontSize: 16, color: Color(0xFFbfbfbf)),
+              ),
+              const SizedBox(width: 4),
+              title == 'Vendor Rating'
+                  ? PannableRatingBar(
+                      rate: rating,
+                      spacing: -3,
+                      items: List.generate(
+                          5,
+                          (index) => const RatingWidget(
+                                selectedColor: Colors.yellow,
+                                unSelectedColor: Colors.grey,
+                                child: Icon(
+                                  Icons.star,
+                                  size: 16,
+                                ),
+                              )),
+                      onChanged: null,
+                    )
+                  : Container()
+            ],
           ),
         )
       ],

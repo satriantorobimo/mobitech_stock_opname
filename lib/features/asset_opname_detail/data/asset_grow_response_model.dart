@@ -35,6 +35,7 @@ class AssetGrowResponseModel {
 }
 
 class Data {
+  List<PropertyFacility>? propertyFacility;
   String? code;
   String? reffModule;
   String? sourceCode;
@@ -273,9 +274,52 @@ class Data {
   int? star5;
   String? vendorContractEndDateUi;
   String? vendorContractStartDateUi;
+  String? address;
+  String? certificateExpiredDate;
+  String? certificateNo;
+  String? certificateTypeCode;
+  String? certificateTypeName;
+  String? cityCode;
+  String? cityName;
+  String? district;
+  String? issuanceDate;
+  String? landCondition;
+  double? landL;
+  double? landSize;
+  String? landTypeCode;
+  String? landTypeName;
+  double? landW;
+  double? marketPrice;
+  String? owner;
+  String? postalCode;
+  String? provinceCode;
+  String? provinceName;
+  String? subDistrict;
+  String? zipCode;
+  String? acquisitionYear;
+  String? buildingSize;
+  double? buildingSizeLb;
+  double? buildingSizeLt;
+  String? buildingTypeCode;
+  String? buildingTypeName;
+  String? builtYear;
+  String? imbNo;
+  String? nibNo;
+  String? numberOfFloor;
 
   Data(
-      {this.assetCode,
+      {this.propertyFacility,
+      this.acquisitionYear,
+      this.buildingSize,
+      this.buildingSizeLb,
+      this.buildingSizeLt,
+      this.buildingTypeCode,
+      this.buildingTypeName,
+      this.builtYear,
+      this.imbNo,
+      this.nibNo,
+      this.numberOfFloor,
+      this.assetCode,
       this.assetSpecification,
       this.imei,
       this.isAuthorizedWorkshop,
@@ -512,9 +556,69 @@ class Data {
       this.methodTypeFisc,
       this.assetCodeVisibilityCode,
       this.numberOfCoverage,
-      this.coverageType});
+      this.coverageType,
+      this.address,
+      this.certificateExpiredDate,
+      this.certificateNo,
+      this.certificateTypeCode,
+      this.certificateTypeName,
+      this.cityCode,
+      this.cityName,
+      this.district,
+      this.issuanceDate,
+      this.landCondition,
+      this.landL,
+      this.landSize,
+      this.landTypeCode,
+      this.landTypeName,
+      this.landW,
+      this.marketPrice,
+      this.owner,
+      this.postalCode,
+      this.provinceCode,
+      this.provinceName,
+      this.subDistrict,
+      this.zipCode});
 
   Data.fromJson(Map<String, dynamic> json) {
+    if (json['property_facility'] != null) {
+      propertyFacility = <PropertyFacility>[];
+      json['property_facility'].forEach((v) {
+        propertyFacility!.add(PropertyFacility.fromJson(v));
+      });
+    }
+    acquisitionYear = json['acquisition_year'];
+    buildingSize = json['building_size'];
+    buildingSizeLb = json['building_size_lb'];
+    buildingSizeLt = json['building_size_lt'];
+    buildingTypeCode = json['building_type_code'];
+    buildingTypeName = json['building_type_name'];
+    builtYear = json['built_year'];
+    imbNo = json['imb_no'];
+    nibNo = json['nib_no'];
+    numberOfFloor = json['number_of_floor'];
+    address = json['address'];
+    certificateExpiredDate = json['certificate_expired_date'];
+    certificateNo = json['certificate_no'];
+    certificateTypeCode = json['certificate_type_code'];
+    certificateTypeName = json['certificate_type_name'];
+    cityCode = json['city_code'];
+    cityName = json['city_name'];
+    district = json['district'];
+    issuanceDate = json['issuance_date'];
+    landCondition = json['land_condition'];
+    landL = json['land_l'];
+    landSize = json['land_size'];
+    landTypeCode = json['land_type_code'];
+    landTypeName = json['land_type_name'];
+    landW = json['land_w'];
+    marketPrice = json['market_price'];
+    owner = json['owner'];
+    postalCode = json['postal_code'];
+    provinceCode = json['province_code'];
+    provinceName = json['province_name'];
+    subDistrict = json['sub_district'];
+    zipCode = json['zip_code'];
     assetCode = json['asset_code'];
     assetSpecification = json['asset_specification'];
     imei = json['imei'];
@@ -1007,6 +1111,29 @@ class Data {
     data['asset_code_visibility_code'] = assetCodeVisibilityCode;
     data['number_of_coverage'] = numberOfCoverage;
     data['coverage_type'] = coverageType;
+    return data;
+  }
+}
+
+class PropertyFacility {
+  int? no;
+  String? propertyFacilityCode;
+  String? propertyFacilityName;
+
+  PropertyFacility(
+      {this.no, this.propertyFacilityCode, this.propertyFacilityName});
+
+  PropertyFacility.fromJson(Map<String, dynamic> json) {
+    no = json['no'];
+    propertyFacilityCode = json['property_facility_code'];
+    propertyFacilityName = json['property_facility_name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['no'] = no;
+    data['property_facility_code'] = propertyFacilityCode;
+    data['property_facility_name'] = propertyFacilityName;
     return data;
   }
 }

@@ -114,4 +114,11 @@ class UrlUtil {
     final String urlAssetGrow2 = urlAssetGrow();
     return baseUrl + urlAssetGrow2;
   }
+
+  static String urlReserved() => 'SOMobile_api/api/Opname/ExecSpForReserved';
+
+  String getUrlReserved() {
+    final String urlReserved2 = urlReserved();
+    return baseUrl + urlReserved2;
+  }
 }
