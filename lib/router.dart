@@ -3,6 +3,8 @@ import 'package:mobile_stock_opname/features/about_us/about_us_screen.dart';
 import 'package:mobile_stock_opname/features/additional_request/additional_request_screen.dart';
 import 'package:mobile_stock_opname/features/additional_request_detail/additional_request_detail_screen.dart';
 import 'package:mobile_stock_opname/features/additional_request_detail_form/additional_request_detail_form_screen.dart';
+import 'package:mobile_stock_opname/features/additional_request_detail_form/data/argument_add_request.dart';
+import 'package:mobile_stock_opname/features/additional_request_detail_form/doc_preview.dart';
 import 'package:mobile_stock_opname/features/additional_request_list/additional_request_list_screen.dart';
 import 'package:mobile_stock_opname/features/asset_opname/asset_opname_screen.dart';
 import 'package:mobile_stock_opname/features/asset_opname_detail/asset_opname_detail_screen.dart';
@@ -184,9 +186,11 @@ class Routers {
                 FadeTransition(opacity: a, child: c));
 
       case StringRouterUtil.addRequesteDetailFormScreenRoute:
+        final ArgumentAddReq argumentAddReq =
+            settings.arguments as ArgumentAddReq;
         return PageRouteBuilder<dynamic>(
-            pageBuilder: (_, __, ___) =>
-                const AdditionalRequestDetailFormScreen(),
+            pageBuilder: (_, __, ___) => AdditionalRequestDetailFormScreen(
+                argumentAddReq: argumentAddReq),
             settings: RouteSettings(name: settings.name),
             transitionsBuilder: (_, Animation<double> a, __, Widget c) =>
                 FadeTransition(opacity: a, child: c));
@@ -195,6 +199,14 @@ class Routers {
         final String title = settings.arguments as String;
         return PageRouteBuilder<dynamic>(
             pageBuilder: (_, __, ___) => DropDownScreen(title: title),
+            settings: RouteSettings(name: settings.name),
+            transitionsBuilder: (_, Animation<double> a, __, Widget c) =>
+                FadeTransition(opacity: a, child: c));
+
+      case StringRouterUtil.docPreviewScreenRoute:
+        final String path = settings.arguments as String;
+        return PageRouteBuilder<dynamic>(
+            pageBuilder: (_, __, ___) => DocPreviewAssetScreen(path),
             settings: RouteSettings(name: settings.name),
             transitionsBuilder: (_, Animation<double> a, __, Widget c) =>
                 FadeTransition(opacity: a, child: c));

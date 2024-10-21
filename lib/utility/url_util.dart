@@ -121,4 +121,43 @@ class UrlUtil {
     final String urlReserved2 = urlReserved();
     return baseUrl + urlReserved2;
   }
+
+  static String urlDDLItem() =>
+      'ebase_api/api/MasterItemExternal/GetRowsDDLForAdditionalRequestAssetRegister';
+
+  String getUrlDDLItem() {
+    final String urlDDLItem2 = urlDDLItem();
+    return baseUrl + urlDDLItem2;
+  }
+
+  static String urlDDLPurchaseCondition() =>
+      'ebase_api/api/SysGeneralSubcodeExternal/GetrowsDDL';
+
+  String getUrlDDLPurchaseCondition() {
+    final String urlDDLPurchaseCondition2 = urlDDLPurchaseCondition();
+    return baseUrl + urlDDLPurchaseCondition2;
+  }
+
+  static String urlDDLEmployee() =>
+      'ebase_api/api/SysEmployeeMainExternal/GetrowsDDL';
+
+  String getUrlDDLEmployee() {
+    final String urlDDLEmployee2 = urlDDLEmployee();
+    return baseUrl + urlDDLEmployee2;
+  }
+
+  static String urlSubmitAddReq() => 'SOMobile_api/api/AssetRegister/Insert';
+
+  String getUrlSubmitAddReq() {
+    final String urlSubmitAddReq2 = urlSubmitAddReq();
+    return baseUrl + urlSubmitAddReq2;
+  }
+
+  static String urlUploadDocReq() =>
+      'SOMobile_api/api/AssetRegisterDocument/Upload';
+
+  String getUrlUploadDocReq() {
+    final String urlUploadDocReq2 = urlUploadDocReq();
+    return baseUrl + urlUploadDocReq2;
+  }
 }

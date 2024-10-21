@@ -29,4 +29,5 @@ class StringRouterUtil {
   static const String changePwdScreenRoute = '/change-pwd-route';
   static const String dailyDetailScreenRoute = '/daily-detail-route';
   static const String dropDownScreenRoute = '/drop-down-route';
+  static const String docPreviewScreenRoute = '/doc-preview-route';
 }

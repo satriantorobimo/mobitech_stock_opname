@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mobile_stock_opname/features/additional_request_detail_form/data/argument_add_request.dart';
+import 'package:mobile_stock_opname/features/asset_opname_detail/bloc/asset_grow_bloc/bloc.dart';
+import 'package:mobile_stock_opname/features/asset_opname_detail/data/arguments_asset_grow.dart';
+import 'package:mobile_stock_opname/features/asset_opname_detail/data/asset_grow_request_model.dart';
+import 'package:mobile_stock_opname/features/asset_opname_detail/data/asset_grow_response_model.dart';
+import 'package:mobile_stock_opname/features/asset_opname_detail/domain/repo/asset_grow_repo.dart';
 import 'package:mobile_stock_opname/utility/general_util.dart';
 import 'package:mobile_stock_opname/utility/string_router_util.dart';
 
@@ -14,7 +21,9 @@ class AdditionalRequestScreen extends StatefulWidget {
 class _AdditionalRequestScreenState extends State<AdditionalRequestScreen> {
   bool readOnly = true;
   FocusNode assetFocus = FocusNode();
-  TextEditingController _assetCodeCtrl = TextEditingController();
+  final TextEditingController _assetCodeCtrl = TextEditingController();
+  bool isLoading = false;
+  AssetGrowBloc assetGrowBloc = AssetGrowBloc(assetGrowRepo: AssetGrowRepo());
 
   @override
   void dispose() {
@@ -73,19 +82,36 @@ class _AdditionalRequestScreenState extends State<AdditionalRequestScreen> {
                 style: const TextStyle(color: Colors.white),
                 readOnly: readOnly,
                 keyboardType: TextInputType.text,
+                onEditingComplete: () {
+                  setState(() {
+                    readOnly = !readOnly;
+                    try {
+                      if (readOnly) {
+                        assetFocus.unfocus();
+                      } else {
+                        assetFocus.requestFocus();
+                      }
+                    } catch (e) {
+                      print(e);
+                    }
+                  });
+                  assetGrowBloc.add(AssetGrowAttempt(
+                      assetGrowRequestModel: AssetGrowRequestModel(
+                          _assetCodeCtrl.text, 'BARCODE')));
+                },
                 decoration: InputDecoration(
                   hintText: 'Asset Code   -   Asset Name',
                   hintStyle: TextStyle(
-                    color: Color(0xFFBFBFBF).withOpacity(0.5),
+                    color: const Color(0xFFBFBFBF).withOpacity(0.5),
                     fontFamily: GoogleFonts.poppins().fontFamily,
                     fontSize: 14,
                   ),
                   isDense: true,
                   contentPadding: const EdgeInsets.only(bottom: 16),
-                  enabledBorder: UnderlineInputBorder(
+                  enabledBorder: const UnderlineInputBorder(
                     borderSide: BorderSide(color: Color(0xFFE6E7E8)),
                   ),
-                  focusedBorder: UnderlineInputBorder(
+                  focusedBorder: const UnderlineInputBorder(
                     borderSide: BorderSide(color: Color(0xFFE6E7E8)),
                   ),
                 ),
@@ -97,37 +123,102 @@ class _AdditionalRequestScreenState extends State<AdditionalRequestScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   GestureDetector(
-                    onTap: () async {
-                      await Navigator.pushNamed(
-                              context, StringRouterUtil.scannerScreenRoute)
-                          .then((val) {
-                        setState(() {
-                          _assetCodeCtrl.text = val.toString();
-                        });
-                        GeneralUtil().showSnackBarSuccess(
-                            context, 'Berhasil Scan Barang');
-                        Future.delayed(const Duration(seconds: 2), () {
-                          _assetCodeCtrl.clear();
-                        });
-                      });
-                    },
-                    child: Column(
-                      children: [
-                        Icon(
-                          Icons.photo_camera,
-                          size: 50,
-                          color: Colors.white,
-                        ),
-                        Text(
-                          'Scan',
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.white,
-                            fontFamily: GoogleFonts.poppins().fontFamily,
-                          ),
-                        ),
-                      ],
-                    ),
+                    onTap: isLoading
+                        ? null
+                        : () async {
+                            await Navigator.pushNamed(context,
+                                    StringRouterUtil.scannerScreenRoute)
+                                .then((val) {
+                              setState(() {
+                                _assetCodeCtrl.text = val.toString();
+                              });
+                              assetGrowBloc.add(AssetGrowAttempt(
+                                  assetGrowRequestModel: AssetGrowRequestModel(
+                                      _assetCodeCtrl.text, 'BARCODE')));
+                            });
+                          },
+                    child: BlocListener(
+                        bloc: assetGrowBloc,
+                        listener: (_, AssetGrowState state) {
+                          if (state is AssetGrowLoading) {
+                            setState(() {
+                              isLoading = true;
+                            });
+                          }
+                          if (state is AssetGrowLoaded) {
+                            setState(() {
+                              isLoading = false;
+                            });
+                            // Navigator.pushNamed(context,
+                            //     StringRouterUtil.assetOpnameDetailScreenRoute,
+                            //     arguments: ArgumentsAssetGrow(
+                            //         false, state.assetGrowResponseModel));
+                          }
+                          if (state is AssetGrowError) {
+                            GeneralUtil()
+                                .showSnackBarError(context, state.error!);
+                            setState(() {
+                              isLoading = false;
+                            });
+                            if (state.error == 'Asset not found') {
+                              AssetGrowResponseModel assetGrowResponseModel =
+                                  AssetGrowResponseModel();
+                              Navigator.pushNamed(
+                                  context,
+                                  StringRouterUtil
+                                      .addRequesteDetailFormScreenRoute,
+                                  arguments: ArgumentAddReq(
+                                      true, assetGrowResponseModel));
+                            }
+                          }
+                          if (state is AssetGrowException) {
+                            GeneralUtil()
+                                .showSnackBarError(context, state.error);
+                            setState(() {
+                              isLoading = false;
+                            });
+                            if (state.error == 'Asset not found') {
+                              AssetGrowResponseModel assetGrowResponseModel =
+                                  AssetGrowResponseModel();
+                              Navigator.pushNamed(
+                                  context,
+                                  StringRouterUtil
+                                      .addRequesteDetailFormScreenRoute,
+                                  arguments: ArgumentAddReq(
+                                      true, assetGrowResponseModel));
+                            }
+                          }
+                        },
+                        child: BlocBuilder(
+                            bloc: assetGrowBloc,
+                            builder: (_, AssetGrowState state) {
+                              return isLoading
+                                  ? const Center(
+                                      child: SizedBox(
+                                        width: 45,
+                                        height: 45,
+                                        child: CircularProgressIndicator(),
+                                      ),
+                                    )
+                                  : Column(
+                                      children: [
+                                        const Icon(
+                                          Icons.photo_camera,
+                                          size: 50,
+                                          color: Colors.white,
+                                        ),
+                                        Text(
+                                          'Scan',
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            color: Colors.white,
+                                            fontFamily: GoogleFonts.poppins()
+                                                .fontFamily,
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                            })),
                   ),
                   GestureDetector(
                     onTap: () {
@@ -146,7 +237,7 @@ class _AdditionalRequestScreenState extends State<AdditionalRequestScreen> {
                     },
                     child: Column(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.keyboard_outlined,
                           size: 50,
                           color: Colors.white,
