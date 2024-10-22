@@ -200,6 +200,7 @@ class Data {
   String? isAuthorizedWorkshop;
   String? isInsured;
   String? isReserved;
+  String? isOpnameReserved;
   String? isDepre;
   int? usefull;
   String? depreCategoryCommCode;
@@ -494,6 +495,7 @@ class Data {
       this.isMaintenance,
       this.isInsured,
       this.isReserved,
+      this.isOpnameReserved,
       this.isDepre,
       this.usefull,
       this.depreCategoryCommCode,
@@ -794,6 +796,7 @@ class Data {
     isAuthorizedWorkshop = json['is_authorized_workshop'];
     isInsured = json['is_insured'];
     isReserved = json['is_reserved'];
+    isOpnameReserved = json['is_opname_reserved'];
     isDepre = json['is_depre'];
     usefull = json['usefull'];
     depreCategoryCommCode = json['depre_category_comm_code'];
@@ -1042,6 +1045,7 @@ class Data {
     data['is_authorized_workshop'] = isAuthorizedWorkshop;
     data['is_insured'] = isInsured;
     data['is_reserved'] = isReserved;
+    data['is_opname_reserved'] = isOpnameReserved;
     data['is_depre'] = isDepre;
     data['usefull'] = usefull;
     data['depre_category_comm_code'] = depreCategoryCommCode;

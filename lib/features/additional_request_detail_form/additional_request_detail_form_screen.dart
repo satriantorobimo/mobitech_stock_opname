@@ -16,6 +16,7 @@ import 'package:mobile_stock_opname/features/additional_request_detail_form/data
 import 'package:mobile_stock_opname/features/additional_request_detail_form/domain/repo/submit_add_req_repo.dart';
 import 'package:mobile_stock_opname/features/navbar/navbar_provider.dart';
 import 'package:mobile_stock_opname/utility/general_util.dart';
+import 'package:mobile_stock_opname/utility/shared_pref_util.dart';
 import 'package:mobile_stock_opname/utility/string_router_util.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path/path.dart' as path;
@@ -433,78 +434,76 @@ class _AdditionalRequestDetailFormScreenState
                     )
                   : Container(),
               attachmentList.isNotEmpty
-                  ? Expanded(
-                      child: ListView.separated(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            return Container(
-                              padding: const EdgeInsets.all(8.0),
-                              decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(12)),
-                                  border: Border.all(color: Colors.white)),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                  ? ListView.separated(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return Container(
+                          padding: const EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(12)),
+                              border: Border.all(color: Colors.white)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(attachmentList[index].fileName,
+                                  style: const TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600)),
+                              Row(
                                 children: [
-                                  Text(attachmentList[index].fileName,
-                                      style: const TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w600)),
-                                  Row(
-                                    children: [
-                                      InkWell(
-                                        onTap: () async {
-                                          if (attachmentList[index].fileType ==
-                                              '.pdf') {
-                                            await OpenFile.open(
+                                  InkWell(
+                                    onTap: () async {
+                                      if (attachmentList[index].fileType ==
+                                          '.pdf') {
+                                        await OpenFile.open(
+                                            attachmentList[index].filePath);
+                                      } else if (attachmentList[index]
+                                                  .fileType ==
+                                              '.jpg' ||
+                                          attachmentList[index].fileType ==
+                                              '.png' ||
+                                          attachmentList[index].fileType ==
+                                              '.jpeg') {
+                                        Navigator.pushNamed(
+                                            context,
+                                            StringRouterUtil
+                                                .docPreviewScreenRoute,
+                                            arguments:
                                                 attachmentList[index].filePath);
-                                          } else if (attachmentList[index]
-                                                      .fileType ==
-                                                  '.jpg' ||
-                                              attachmentList[index].fileType ==
-                                                  '.png' ||
-                                              attachmentList[index].fileType ==
-                                                  '.jpeg') {
-                                            Navigator.pushNamed(
-                                                context,
-                                                StringRouterUtil
-                                                    .docPreviewScreenRoute,
-                                                arguments: attachmentList[index]
-                                                    .filePath);
-                                          } else {}
-                                        },
-                                        child: const Icon(
-                                          Icons.preview_rounded,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 4,
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                          setState(() {
-                                            attachmentList.removeAt(index);
-                                          });
-                                        },
-                                        child: const Icon(
-                                          Icons.close_rounded,
-                                          color: Colors.red,
-                                        ),
-                                      )
-                                    ],
+                                      } else {}
+                                    },
+                                    child: const Icon(
+                                      Icons.preview_rounded,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 4,
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        attachmentList.removeAt(index);
+                                      });
+                                    },
+                                    child: const Icon(
+                                      Icons.close_rounded,
+                                      color: Colors.red,
+                                    ),
                                   )
                                 ],
-                              ),
-                            );
-                          },
-                          separatorBuilder: (context, index) {
-                            return const SizedBox(height: 12);
-                          },
-                          itemCount: attachmentList.length))
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return const SizedBox(height: 12);
+                      },
+                      itemCount: attachmentList.length)
                   : Container(),
               const SizedBox(
                 height: 24,
@@ -573,11 +572,26 @@ class _AdditionalRequestDetailFormScreenState
                             });
                           }
                           if (state is SubmitAddReqException) {
-                            GeneralUtil()
-                                .showSnackBarError(context, state.error);
-                            setState(() {
-                              isLoading = false;
-                            });
+                            if (state.error.toLowerCase() ==
+                                'unauthorized access') {
+                              GeneralUtil().showSnackBarError(
+                                  context, 'Session Expired');
+                              var bottomBarProvider =
+                                  Provider.of<NavbarProvider>(context,
+                                      listen: false);
+                              bottomBarProvider.setPage(0);
+                              bottomBarProvider.setTab(0);
+                              SharedPrefUtil.clearSharedPref();
+                              Future.delayed(const Duration(seconds: 1), () {
+                                Navigator.pushNamedAndRemoveUntil(
+                                    context,
+                                    StringRouterUtil.loginScreenRoute,
+                                    (route) => false);
+                              });
+                            } else {
+                              GeneralUtil()
+                                  .showSnackBarError(context, state.error);
+                            }
                           }
                         },
                       ),
@@ -627,11 +641,26 @@ class _AdditionalRequestDetailFormScreenState
                             });
                           }
                           if (state is UploadDocReqException) {
-                            GeneralUtil()
-                                .showSnackBarError(context, state.error);
-                            setState(() {
-                              isLoading = false;
-                            });
+                            if (state.error.toLowerCase() ==
+                                'unauthorized access') {
+                              GeneralUtil().showSnackBarError(
+                                  context, 'Session Expired');
+                              var bottomBarProvider =
+                                  Provider.of<NavbarProvider>(context,
+                                      listen: false);
+                              bottomBarProvider.setPage(0);
+                              bottomBarProvider.setTab(0);
+                              SharedPrefUtil.clearSharedPref();
+                              Future.delayed(const Duration(seconds: 1), () {
+                                Navigator.pushNamedAndRemoveUntil(
+                                    context,
+                                    StringRouterUtil.loginScreenRoute,
+                                    (route) => false);
+                              });
+                            } else {
+                              GeneralUtil()
+                                  .showSnackBarError(context, state.error);
+                            }
                           }
                         },
                       ),

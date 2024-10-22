@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,8 +7,12 @@ import 'package:mobile_stock_opname/features/asset_opname_detail/content_data_wi
 import 'package:mobile_stock_opname/features/asset_opname_detail/data/arguments_asset_grow.dart';
 import 'package:mobile_stock_opname/features/asset_opname_detail/data/data_content.dart';
 import 'package:mobile_stock_opname/features/asset_opname_detail/domain/repo/asset_grow_repo.dart';
+import 'package:mobile_stock_opname/features/navbar/navbar_provider.dart';
 import 'package:mobile_stock_opname/utility/general_util.dart';
+import 'package:mobile_stock_opname/utility/shared_pref_util.dart';
 import 'package:mobile_stock_opname/utility/string_router_util.dart';
+import 'package:pretty_qr_code/pretty_qr_code.dart';
+import 'package:provider/provider.dart';
 
 class AssetOpnameDetailScreen extends StatefulWidget {
   const AssetOpnameDetailScreen({super.key, required this.argumentsAssetGrow});
@@ -28,8 +33,14 @@ class _AssetOpnameDetailScreenState extends State<AssetOpnameDetailScreen> {
   @override
   void initState() {
     setState(() {
-      isReserved =
-          widget.argumentsAssetGrow.assetGrowResponseModel.data![0].isReserved!;
+      isReserved = widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
+                      .isOpnameReserved! ==
+                  '0' ||
+              widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
+                      .isOpnameReserved! ==
+                  ''
+          ? 'Yes'
+          : 'No';
       rating = widget
           .argumentsAssetGrow.assetGrowResponseModel.data![0].averageRating!;
       if (widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
@@ -207,7 +218,7 @@ class _AssetOpnameDetailScreenState extends State<AssetOpnameDetailScreen> {
               widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
                   .propertyFacility!));
           dataContent.add(DataContent(
-              'Purchasing Date',
+              'Purchase Date',
               widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
                   .purchaseDate!,
               false,
@@ -269,8 +280,7 @@ class _AssetOpnameDetailScreenState extends State<AssetOpnameDetailScreen> {
                   .propertyFacility!));
           dataContent.add(DataContent(
               'Asset Location',
-              widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
-                  .locationName!,
+              '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].regionName!} - ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].areaName!} - ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].branchName!} - ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].locationName!}',
               true,
               false,
               widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
@@ -305,6 +315,15 @@ class _AssetOpnameDetailScreenState extends State<AssetOpnameDetailScreen> {
                     .propertyFacility ??
                 []));
         dataContent.add(DataContent(
+            'Certificate Type.',
+            widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
+                .certificateTypeName!,
+            false,
+            false,
+            widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
+                    .propertyFacility ??
+                []));
+        dataContent.add(DataContent(
             'Land Type',
             widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
                 .landTypeName!,
@@ -316,15 +335,15 @@ class _AssetOpnameDetailScreenState extends State<AssetOpnameDetailScreen> {
         dataContent.add(DataContent(
             widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
                         .certificateTypeCode ==
-                    'SGS.2409.00017'
-                ? 'Exp. Date'
-                : 'Certificate Issue Date | Exp. Date',
+                    'SGS.2409.00014'
+                ? 'Certificate Issue Date | Exp. Date'
+                : 'Exp. Date',
             widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
                         .certificateTypeCode ==
-                    'SGS.2409.00017'
-                ? widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
-                    .certificateExpiredDate!
-                : '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].issuanceDate!} | ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].certificateExpiredDate!}',
+                    'SGS.2409.00014'
+                ? '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].issuanceDate!} | ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].certificateExpiredDate!}'
+                : widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
+                    .certificateExpiredDate!,
             false,
             false,
             widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
@@ -386,7 +405,7 @@ class _AssetOpnameDetailScreenState extends State<AssetOpnameDetailScreen> {
                 []));
 
         dataContent.add(DataContent(
-            'Purchasing Date',
+            'Purchase Date',
             widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
                 .purchaseDate!,
             false,
@@ -456,8 +475,7 @@ class _AssetOpnameDetailScreenState extends State<AssetOpnameDetailScreen> {
                 []));
         dataContent.add(DataContent(
             'Asset Location',
-            widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
-                .locationName!,
+            '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].regionName!} - ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].areaName!} - ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].branchName!} - ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].locationName!}',
             true,
             false,
             widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
@@ -468,14 +486,14 @@ class _AssetOpnameDetailScreenState extends State<AssetOpnameDetailScreen> {
           'BLDG') {
         dataContent.add(DataContent(
             'Item',
-            '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].code!} - ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].itemName!}',
+            '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].itemCode!} - ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].itemName!}',
             false,
             false,
             widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
                 .propertyFacility!));
         dataContent.add(DataContent(
             'FA Type & Category',
-            '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].typeAndCategoryName!} - ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].itemName!}',
+            '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].typeAndCategoryName!} - ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].categoryName!}',
             false,
             false,
             widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
@@ -488,15 +506,33 @@ class _AssetOpnameDetailScreenState extends State<AssetOpnameDetailScreen> {
             false,
             widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
                 .propertyFacility!));
-
         dataContent.add(DataContent(
-            'Certificate Issue Date',
+            'Certificate Type.',
             widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
-                .issuanceDate!,
+                .certificateTypeName!,
             false,
             false,
             widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
-                .propertyFacility!));
+                    .propertyFacility ??
+                []));
+        dataContent.add(DataContent(
+            widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
+                        .certificateTypeCode ==
+                    'SGS.2409.00007'
+                ? 'Certificate Issue Date | Exp. Date'
+                : 'Exp. Date',
+            widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
+                        .certificateTypeCode ==
+                    'SGS.2409.00007'
+                ? '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].issuanceDate!} | ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].certificateExpiredDate!}'
+                : widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
+                    .certificateExpiredDate!,
+            false,
+            false,
+            widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
+                    .propertyFacility ??
+                []));
+
         dataContent.add(DataContent(
             'IMB No.',
             widget.argumentsAssetGrow.assetGrowResponseModel.data![0].imbNo!,
@@ -512,14 +548,14 @@ class _AssetOpnameDetailScreenState extends State<AssetOpnameDetailScreen> {
             widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
                 .propertyFacility!));
         dataContent.add(DataContent(
-            'Building Area (m2) | Wide Site (m)',
+            'Building Area (m2) | Wide Site (m2)',
             '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].buildingSizeLt!} | ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].buildingSizeLb!}',
             false,
             false,
             widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
                 .propertyFacility!));
         dataContent.add(DataContent(
-            'Building Type | Numer of Floor',
+            'Building Type | Number of Floor',
             '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].buildingTypeName!} | ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].numberOfFloor!}',
             false,
             false,
@@ -583,7 +619,7 @@ class _AssetOpnameDetailScreenState extends State<AssetOpnameDetailScreen> {
                 .propertyFacility!));
 
         dataContent.add(DataContent(
-            'Purchasing Date',
+            'Purchase Date',
             widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
                 .purchaseDate!,
             false,
@@ -645,8 +681,7 @@ class _AssetOpnameDetailScreenState extends State<AssetOpnameDetailScreen> {
                 .propertyFacility!));
         dataContent.add(DataContent(
             'Asset Location',
-            widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
-                .locationName!,
+            '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].regionName!} - ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].areaName!} - ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].branchName!} - ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].locationName!}',
             true,
             false,
             widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
@@ -759,7 +794,7 @@ class _AssetOpnameDetailScreenState extends State<AssetOpnameDetailScreen> {
                     .propertyFacility ??
                 []));
         dataContent.add(DataContent(
-            'Purchasing Date',
+            'Purchase Date',
             widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
                 .purchaseDate!,
             false,
@@ -829,8 +864,7 @@ class _AssetOpnameDetailScreenState extends State<AssetOpnameDetailScreen> {
                 []));
         dataContent.add(DataContent(
             'Asset Location',
-            widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
-                .locationName!,
+            '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].regionName!} - ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].areaName!} - ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].branchName!} - ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].locationName!}',
             true,
             false,
             widget.argumentsAssetGrow.assetGrowResponseModel.data![0]
@@ -864,7 +898,7 @@ class _AssetOpnameDetailScreenState extends State<AssetOpnameDetailScreen> {
                 ),
               ),
               const SizedBox(width: 16),
-              Text('Asset Opname',
+              AutoSizeText('Asset Opname',
                   style: TextStyle(
                       fontFamily: GoogleFonts.poppins().fontFamily,
                       fontSize: 20,
@@ -902,7 +936,7 @@ class _AssetOpnameDetailScreenState extends State<AssetOpnameDetailScreen> {
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 24, vertical: 8),
-                                child: Text(
+                                child: AutoSizeText(
                                   widget.argumentsAssetGrow
                                       .assetGrowResponseModel.data![0].status!,
                                   style: const TextStyle(
@@ -916,23 +950,34 @@ class _AssetOpnameDetailScreenState extends State<AssetOpnameDetailScreen> {
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               mainAxisAlignment: MainAxisAlignment.start,
-                              children: const [
-                                Icon(
-                                  Icons.qr_code_2_rounded,
-                                  size: 75,
-                                  color: Colors.white,
+                              children: [
+                                SizedBox(
+                                  width: 60,
+                                  height: 60,
+                                  child: PrettyQrView.data(
+                                      data: widget
+                                          .argumentsAssetGrow
+                                          .assetGrowResponseModel
+                                          .data![0]
+                                          .barcode!,
+                                      decoration: const PrettyQrDecoration(
+                                        shape: PrettyQrSmoothSymbol(
+                                          color: Colors.white,
+                                        ),
+                                      )),
                                 ),
-                                Icon(
+                                const Icon(
                                   Icons.print_sharp,
                                   size: 33,
                                   color: Colors.white,
                                 ),
                               ],
                             ),
-                            const Text(
-                              '0011.AS.2401.00004',
-                              style:
-                                  TextStyle(fontSize: 14, color: Colors.white),
+                            AutoSizeText(
+                              widget.argumentsAssetGrow.assetGrowResponseModel
+                                  .data![0].barcode!,
+                              style: const TextStyle(
+                                  fontSize: 14, color: Colors.white),
                             ),
                           ],
                         ),
@@ -942,26 +987,27 @@ class _AssetOpnameDetailScreenState extends State<AssetOpnameDetailScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              '${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].itemName!} ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].description!}',
+                            AutoSizeText(
+                              widget.argumentsAssetGrow.assetGrowResponseModel
+                                  .data![0].description!,
                               style: const TextStyle(
                                   fontSize: 18,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
                             ),
                             const SizedBox(height: 8),
-                            Text(
+                            AutoSizeText(
                               widget.argumentsAssetGrow.assetGrowResponseModel
                                   .data![0].code!,
                               style: const TextStyle(
                                   fontSize: 14, color: Colors.white),
                             ),
-                            Text(
+                            AutoSizeText(
                               'Usefull life : ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].usefull!} Years',
                               style: const TextStyle(
                                   fontSize: 14, color: Colors.white),
                             ),
-                            Text(
+                            AutoSizeText(
                               'Location : ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].locationName!}',
                               style: const TextStyle(
                                   fontSize: 14, color: Colors.white),
@@ -969,7 +1015,7 @@ class _AssetOpnameDetailScreenState extends State<AssetOpnameDetailScreen> {
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text(
+                                const AutoSizeText(
                                   'PIC :',
                                   style: TextStyle(
                                       fontSize: 14, color: Colors.white),
@@ -981,12 +1027,12 @@ class _AssetOpnameDetailScreenState extends State<AssetOpnameDetailScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(
+                                      AutoSizeText(
                                         ' ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].picCode!} - ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].picName!}',
                                         style: const TextStyle(
                                             fontSize: 14, color: Colors.white),
                                       ),
-                                      Text(
+                                      AutoSizeText(
                                         ' ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].picPositionName!}',
                                         style: const TextStyle(
                                             fontSize: 14, color: Colors.white),
@@ -999,7 +1045,7 @@ class _AssetOpnameDetailScreenState extends State<AssetOpnameDetailScreen> {
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text(
+                                const AutoSizeText(
                                   'User :',
                                   style: TextStyle(
                                       fontSize: 14, color: Colors.white),
@@ -1011,12 +1057,12 @@ class _AssetOpnameDetailScreenState extends State<AssetOpnameDetailScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(
+                                      AutoSizeText(
                                         ' ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].userCode!} - ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].userName!}',
                                         style: const TextStyle(
                                             fontSize: 14, color: Colors.white),
                                       ),
-                                      Text(
+                                      AutoSizeText(
                                         ' ${widget.argumentsAssetGrow.assetGrowResponseModel.data![0].userPositionName!}',
                                         style: const TextStyle(
                                             fontSize: 14, color: Colors.white),
@@ -1060,7 +1106,7 @@ class _AssetOpnameDetailScreenState extends State<AssetOpnameDetailScreen> {
                               ? Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
+                                    AutoSizeText(
                                       dataContent[index].title,
                                       style: const TextStyle(
                                           fontSize: 18, color: Colors.white),
@@ -1071,7 +1117,7 @@ class _AssetOpnameDetailScreenState extends State<AssetOpnameDetailScreen> {
                                     ListView.separated(
                                         shrinkWrap: true,
                                         itemBuilder: ((context, indexes) {
-                                          return Text(
+                                          return AutoSizeText(
                                             '${dataContent[index].propertyFacility[indexes].no!}. ${dataContent[index].propertyFacility[indexes].propertyFacilityName!}',
                                             style: const TextStyle(
                                                 fontSize: 16,
@@ -1100,7 +1146,7 @@ class _AssetOpnameDetailScreenState extends State<AssetOpnameDetailScreen> {
                               : Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
+                                    AutoSizeText(
                                       dataContent[index].title,
                                       style: const TextStyle(
                                           fontSize: 18, color: Colors.white),
@@ -1121,7 +1167,7 @@ class _AssetOpnameDetailScreenState extends State<AssetOpnameDetailScreen> {
                                                   color: Color(0xFFE6E7E8)),
                                             ),
                                           ),
-                                          child: Text(
+                                          child: AutoSizeText(
                                             dataContent[index].value,
                                             style: const TextStyle(
                                                 fontSize: 16,
@@ -1178,11 +1224,26 @@ class _AssetOpnameDetailScreenState extends State<AssetOpnameDetailScreen> {
                               });
                             }
                             if (state is ReservedException) {
-                              GeneralUtil()
-                                  .showSnackBarError(context, state.error);
-                              setState(() {
-                                isLoading = false;
-                              });
+                              if (state.error.toLowerCase() ==
+                                  'unauthorized access') {
+                                GeneralUtil().showSnackBarError(
+                                    context, 'Session Expired');
+                                var bottomBarProvider =
+                                    Provider.of<NavbarProvider>(context,
+                                        listen: false);
+                                bottomBarProvider.setPage(0);
+                                bottomBarProvider.setTab(0);
+                                SharedPrefUtil.clearSharedPref();
+                                Future.delayed(const Duration(seconds: 1), () {
+                                  Navigator.pushNamedAndRemoveUntil(
+                                      context,
+                                      StringRouterUtil.loginScreenRoute,
+                                      (route) => false);
+                                });
+                              } else {
+                                GeneralUtil()
+                                    .showSnackBarError(context, state.error);
+                              }
                             }
                           },
                           child: BlocBuilder(
@@ -1236,7 +1297,7 @@ class _AssetOpnameDetailScreenState extends State<AssetOpnameDetailScreen> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                             children: const [
-                                              Text('RESERVED',
+                                              AutoSizeText('RESERVED',
                                                   style: TextStyle(
                                                       fontSize: 18,
                                                       color: Colors.white,
@@ -1266,7 +1327,7 @@ class _AssetOpnameDetailScreenState extends State<AssetOpnameDetailScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: const [
-                              Text('OPNAME',
+                              AutoSizeText('OPNAME',
                                   style: TextStyle(
                                       fontSize: 18,
                                       color: Colors.white,

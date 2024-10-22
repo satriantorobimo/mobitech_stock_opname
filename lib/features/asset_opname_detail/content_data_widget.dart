@@ -31,15 +31,16 @@ class ContentDataWidget extends StatelessWidget {
               bottom: BorderSide(width: 1, color: Color(0xFFE6E7E8)),
             ),
           ),
-          child: Row(
-            children: [
-              Text(
-                content,
-                style: const TextStyle(fontSize: 16, color: Color(0xFFbfbfbf)),
-              ),
-              const SizedBox(width: 4),
-              title == 'Vendor Rating'
-                  ? PannableRatingBar(
+          child: title == 'Vendor Rating'
+              ? Row(
+                  children: [
+                    Text(
+                      content,
+                      style: const TextStyle(
+                          fontSize: 16, color: Color(0xFFbfbfbf)),
+                    ),
+                    const SizedBox(width: 4),
+                    PannableRatingBar(
                       rate: rating,
                       spacing: -3,
                       items: List.generate(
@@ -54,9 +55,13 @@ class ContentDataWidget extends StatelessWidget {
                               )),
                       onChanged: null,
                     )
-                  : Container()
-            ],
-          ),
+                  ],
+                )
+              : Text(
+                  content,
+                  style:
+                      const TextStyle(fontSize: 16, color: Color(0xFFbfbfbf)),
+                ),
         )
       ],
     );

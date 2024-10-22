@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -5,8 +6,12 @@ import 'package:mobile_stock_opname/features/asset_opname_detail/bloc/asset_grow
 import 'package:mobile_stock_opname/features/asset_opname_detail/data/arguments_asset_grow.dart';
 import 'package:mobile_stock_opname/features/asset_opname_detail/data/asset_grow_request_model.dart';
 import 'package:mobile_stock_opname/features/asset_opname_detail/domain/repo/asset_grow_repo.dart';
+import 'package:mobile_stock_opname/features/navbar/navbar_provider.dart';
 import 'package:mobile_stock_opname/utility/general_util.dart';
+import 'package:mobile_stock_opname/utility/shared_pref_util.dart';
 import 'package:mobile_stock_opname/utility/string_router_util.dart';
+import 'package:pretty_qr_code/pretty_qr_code.dart';
+import 'package:provider/provider.dart';
 
 class AssetOpnameScreen extends StatefulWidget {
   const AssetOpnameScreen({super.key});
@@ -51,7 +56,7 @@ class _AssetOpnameScreenState extends State<AssetOpnameScreen> {
                 ),
               ),
               const SizedBox(width: 16),
-              Text('Asset Opname',
+              AutoSizeText('Asset Opname',
                   style: TextStyle(
                       fontFamily: GoogleFonts.poppins().fontFamily,
                       fontSize: 20,
@@ -65,7 +70,7 @@ class _AssetOpnameScreenState extends State<AssetOpnameScreen> {
             children: [
               const Align(
                 alignment: Alignment.centerLeft,
-                child: Text(
+                child: AutoSizeText(
                   'Asset',
                   style: TextStyle(fontSize: 18, color: Colors.white),
                 ),
@@ -159,11 +164,29 @@ class _AssetOpnameScreenState extends State<AssetOpnameScreen> {
                             });
                           }
                           if (state is AssetGrowException) {
-                            GeneralUtil()
-                                .showSnackBarError(context, state.error);
                             setState(() {
                               isLoading = false;
                             });
+                            if (state.error.toLowerCase() ==
+                                'unauthorized access') {
+                              GeneralUtil().showSnackBarError(
+                                  context, 'Session Expired');
+                              var bottomBarProvider =
+                                  Provider.of<NavbarProvider>(context,
+                                      listen: false);
+                              bottomBarProvider.setPage(0);
+                              bottomBarProvider.setTab(0);
+                              SharedPrefUtil.clearSharedPref();
+                              Future.delayed(const Duration(seconds: 1), () {
+                                Navigator.pushNamedAndRemoveUntil(
+                                    context,
+                                    StringRouterUtil.loginScreenRoute,
+                                    (route) => false);
+                              });
+                            } else {
+                              GeneralUtil()
+                                  .showSnackBarError(context, state.error);
+                            }
                           }
                         },
                         child: BlocBuilder(
@@ -184,7 +207,7 @@ class _AssetOpnameScreenState extends State<AssetOpnameScreen> {
                                           size: 50,
                                           color: Colors.white,
                                         ),
-                                        Text(
+                                        AutoSizeText(
                                           'Scan',
                                           style: TextStyle(
                                             fontSize: 18,
@@ -219,7 +242,7 @@ class _AssetOpnameScreenState extends State<AssetOpnameScreen> {
                           size: 50,
                           color: Colors.white,
                         ),
-                        Text(
+                        AutoSizeText(
                           'Serial No',
                           style: TextStyle(
                             fontSize: 18,
@@ -231,7 +254,7 @@ class _AssetOpnameScreenState extends State<AssetOpnameScreen> {
                     ),
                   )
                 ],
-              )
+              ),
             ],
           ),
         ),

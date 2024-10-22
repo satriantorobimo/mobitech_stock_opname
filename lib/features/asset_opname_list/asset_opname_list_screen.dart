@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_stock_opname/utility/shared_pref_util.dart';
@@ -41,7 +42,7 @@ class _AssetOpnameListScreenState extends State<AssetOpnameListScreen> {
                 top: MediaQuery.of(context).size.height * 0.06,
                 left: 16.0,
                 right: 16.0),
-            child: Text('Asset Opname List',
+            child: AutoSizeText('Asset Opname List',
                 style: TextStyle(
                     fontFamily: GoogleFonts.poppins().fontFamily,
                     fontSize: 20,
@@ -72,7 +73,7 @@ class _AssetOpnameListScreenState extends State<AssetOpnameListScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    Text(name,
+                    AutoSizeText(name,
                         style: TextStyle(
                             fontFamily: GoogleFonts.poppins().fontFamily,
                             fontWeight: FontWeight.bold,
@@ -81,13 +82,13 @@ class _AssetOpnameListScreenState extends State<AssetOpnameListScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(uid,
+                        AutoSizeText(uid,
                             style: TextStyle(
                                 fontFamily: GoogleFonts.poppins().fontFamily,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 12,
                                 color: Colors.white)),
-                        Text(company,
+                        AutoSizeText(company,
                             style: TextStyle(
                                 fontFamily: GoogleFonts.poppins().fontFamily,
                                 fontWeight: FontWeight.bold,
@@ -102,7 +103,7 @@ class _AssetOpnameListScreenState extends State<AssetOpnameListScreen> {
                               size: 12,
                             ),
                             const SizedBox(width: 4),
-                            Text('Active',
+                            AutoSizeText('Active',
                                 style: TextStyle(
                                     fontFamily:
                                         GoogleFonts.poppins().fontFamily,
@@ -128,14 +129,14 @@ class _AssetOpnameListScreenState extends State<AssetOpnameListScreen> {
                     Row(
                       children: [
                         Container(
-                          height: 55,
-                          width: 55,
+                          height: MediaQuery.of(context).size.width * 0.12,
+                          width: MediaQuery.of(context).size.width * 0.12,
                           decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                             color: Colors.green,
                           ),
                           alignment: Alignment.center,
-                          child: Text('70%',
+                          child: AutoSizeText('70%',
                               style: TextStyle(
                                   fontFamily: GoogleFonts.poppins().fontFamily,
                                   fontWeight: FontWeight.bold,
@@ -149,8 +150,9 @@ class _AssetOpnameListScreenState extends State<AssetOpnameListScreen> {
                             Row(
                               children: [
                                 SizedBox(
-                                  width: 115,
-                                  child: Text('Opname No',
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.29,
+                                  child: AutoSizeText('Opname No',
                                       style: TextStyle(
                                           fontFamily:
                                               GoogleFonts.poppins().fontFamily,
@@ -158,7 +160,7 @@ class _AssetOpnameListScreenState extends State<AssetOpnameListScreen> {
                                           fontSize: 14,
                                           color: Colors.white)),
                                 ),
-                                Text(': 012.05.2024',
+                                AutoSizeText(': 012.05.2024',
                                     style: TextStyle(
                                         fontFamily:
                                             GoogleFonts.poppins().fontFamily,
@@ -169,15 +171,16 @@ class _AssetOpnameListScreenState extends State<AssetOpnameListScreen> {
                             Row(
                               children: [
                                 SizedBox(
-                                  width: 115,
-                                  child: Text('Periode Opname',
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.29,
+                                  child: AutoSizeText('Periode Opname',
                                       style: TextStyle(
                                           fontFamily:
                                               GoogleFonts.poppins().fontFamily,
                                           fontSize: 12,
                                           color: Colors.white)),
                                 ),
-                                Text(': 12 to 26 May 2024',
+                                AutoSizeText(': 12 to 26 May 2024',
                                     style: TextStyle(
                                         fontFamily:
                                             GoogleFonts.poppins().fontFamily,
@@ -188,15 +191,16 @@ class _AssetOpnameListScreenState extends State<AssetOpnameListScreen> {
                             Row(
                               children: [
                                 SizedBox(
-                                  width: 115,
-                                  child: Text('Total Asset Opname',
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.29,
+                                  child: AutoSizeText('Total Asset Opname',
                                       style: TextStyle(
                                           fontFamily:
                                               GoogleFonts.poppins().fontFamily,
                                           fontSize: 12,
                                           color: Colors.white)),
                                 ),
-                                Text(': 300',
+                                AutoSizeText(': 300',
                                     style: TextStyle(
                                         fontFamily:
                                             GoogleFonts.poppins().fontFamily,
@@ -207,15 +211,16 @@ class _AssetOpnameListScreenState extends State<AssetOpnameListScreen> {
                             Row(
                               children: [
                                 SizedBox(
-                                  width: 115,
-                                  child: Text('Company',
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.29,
+                                  child: AutoSizeText('Company',
                                       style: TextStyle(
                                           fontFamily:
                                               GoogleFonts.poppins().fontFamily,
                                           fontSize: 12,
                                           color: Colors.white)),
                                 ),
-                                Text(': PT ABC',
+                                AutoSizeText(': PT ABC',
                                     style: TextStyle(
                                         fontFamily:
                                             GoogleFonts.poppins().fontFamily,
@@ -281,14 +286,14 @@ class _AssetOpnameListScreenState extends State<AssetOpnameListScreen> {
                     Row(
                       children: [
                         Container(
-                          height: 55,
-                          width: 55,
+                          height: MediaQuery.of(context).size.width * 0.12,
+                          width: MediaQuery.of(context).size.width * 0.12,
                           decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                             color: Colors.red,
                           ),
                           alignment: Alignment.center,
-                          child: Text('20%',
+                          child: AutoSizeText('20%',
                               style: TextStyle(
                                   fontFamily: GoogleFonts.poppins().fontFamily,
                                   fontWeight: FontWeight.bold,
@@ -302,8 +307,9 @@ class _AssetOpnameListScreenState extends State<AssetOpnameListScreen> {
                             Row(
                               children: [
                                 SizedBox(
-                                  width: 115,
-                                  child: Text('Opname No',
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.29,
+                                  child: AutoSizeText('Opname No',
                                       style: TextStyle(
                                           fontFamily:
                                               GoogleFonts.poppins().fontFamily,
@@ -311,7 +317,7 @@ class _AssetOpnameListScreenState extends State<AssetOpnameListScreen> {
                                           fontSize: 14,
                                           color: Colors.white)),
                                 ),
-                                Text(': 012.05.2024',
+                                AutoSizeText(': 012.05.2024',
                                     style: TextStyle(
                                         fontFamily:
                                             GoogleFonts.poppins().fontFamily,
@@ -322,15 +328,16 @@ class _AssetOpnameListScreenState extends State<AssetOpnameListScreen> {
                             Row(
                               children: [
                                 SizedBox(
-                                  width: 115,
-                                  child: Text('Periode Opname',
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.29,
+                                  child: AutoSizeText('Periode Opname',
                                       style: TextStyle(
                                           fontFamily:
                                               GoogleFonts.poppins().fontFamily,
                                           fontSize: 12,
                                           color: Colors.white)),
                                 ),
-                                Text(': 12 to 26 May 2024',
+                                AutoSizeText(': 12 to 26 May 2024',
                                     style: TextStyle(
                                         fontFamily:
                                             GoogleFonts.poppins().fontFamily,
@@ -341,15 +348,16 @@ class _AssetOpnameListScreenState extends State<AssetOpnameListScreen> {
                             Row(
                               children: [
                                 SizedBox(
-                                  width: 115,
-                                  child: Text('Total Asset Opname',
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.29,
+                                  child: AutoSizeText('Total Asset Opname',
                                       style: TextStyle(
                                           fontFamily:
                                               GoogleFonts.poppins().fontFamily,
                                           fontSize: 12,
                                           color: Colors.white)),
                                 ),
-                                Text(': 300',
+                                AutoSizeText(': 300',
                                     style: TextStyle(
                                         fontFamily:
                                             GoogleFonts.poppins().fontFamily,
@@ -360,15 +368,16 @@ class _AssetOpnameListScreenState extends State<AssetOpnameListScreen> {
                             Row(
                               children: [
                                 SizedBox(
-                                  width: 115,
-                                  child: Text('Company',
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.29,
+                                  child: AutoSizeText('Company',
                                       style: TextStyle(
                                           fontFamily:
                                               GoogleFonts.poppins().fontFamily,
                                           fontSize: 12,
                                           color: Colors.white)),
                                 ),
-                                Text(': PT DEF',
+                                AutoSizeText(': PT DEF',
                                     style: TextStyle(
                                         fontFamily:
                                             GoogleFonts.poppins().fontFamily,

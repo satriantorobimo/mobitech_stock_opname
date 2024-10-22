@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -61,7 +62,7 @@ class _DashboardDetailScreenState extends State<DashboardDetailScreen> {
                   ),
                 ),
                 const SizedBox(width: 16),
-                Text('Asset Opname',
+                AutoSizeText('Asset Opname',
                     style: TextStyle(
                         fontFamily: GoogleFonts.poppins().fontFamily,
                         fontSize: 20,
@@ -94,7 +95,7 @@ class _DashboardDetailScreenState extends State<DashboardDetailScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    Text(name,
+                    AutoSizeText(name,
                         style: TextStyle(
                             fontFamily: GoogleFonts.poppins().fontFamily,
                             fontWeight: FontWeight.bold,
@@ -103,13 +104,13 @@ class _DashboardDetailScreenState extends State<DashboardDetailScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(uid,
+                        AutoSizeText(uid,
                             style: TextStyle(
                                 fontFamily: GoogleFonts.poppins().fontFamily,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 12,
                                 color: Colors.white)),
-                        Text(company,
+                        AutoSizeText(company,
                             style: TextStyle(
                                 fontFamily: GoogleFonts.poppins().fontFamily,
                                 fontWeight: FontWeight.bold,
@@ -124,7 +125,7 @@ class _DashboardDetailScreenState extends State<DashboardDetailScreen> {
                               size: 12,
                             ),
                             const SizedBox(width: 4),
-                            Text('Active',
+                            AutoSizeText('Active',
                                 style: TextStyle(
                                     fontFamily:
                                         GoogleFonts.poppins().fontFamily,
@@ -148,11 +149,11 @@ class _DashboardDetailScreenState extends State<DashboardDetailScreen> {
                   borderRadius: BorderRadius.all(Radius.circular(20))),
               width: double.infinity,
               padding:
-                  const EdgeInsets.symmetric(vertical: 16.0, horizontal: 32.0),
+                  const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Dashboard - 02 May 2024',
+                  AutoSizeText('Dashboard - 02 May 2024',
                       style: TextStyle(
                           fontFamily: GoogleFonts.poppins().fontFamily,
                           fontWeight: FontWeight.bold,
@@ -170,14 +171,12 @@ class _DashboardDetailScreenState extends State<DashboardDetailScreen> {
                     height: 16,
                   ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Icon(
                         Icons.circle,
                         size: 50,
                         color: Colors.green,
-                      ),
-                      SizedBox(
-                        width: 24,
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -185,8 +184,8 @@ class _DashboardDetailScreenState extends State<DashboardDetailScreen> {
                           Row(
                             children: [
                               SizedBox(
-                                width: 115,
-                                child: Text('Opname No',
+                                width: MediaQuery.of(context).size.width * 0.29,
+                                child: AutoSizeText('Opname No',
                                     style: TextStyle(
                                         fontFamily:
                                             GoogleFonts.poppins().fontFamily,
@@ -194,7 +193,7 @@ class _DashboardDetailScreenState extends State<DashboardDetailScreen> {
                                         fontSize: 14,
                                         color: Colors.white)),
                               ),
-                              Text(': 012.05.2024',
+                              AutoSizeText(': 012.05.2024',
                                   style: TextStyle(
                                       fontFamily:
                                           GoogleFonts.poppins().fontFamily,
@@ -205,15 +204,15 @@ class _DashboardDetailScreenState extends State<DashboardDetailScreen> {
                           Row(
                             children: [
                               SizedBox(
-                                width: 115,
-                                child: Text('Periode Opname',
+                                width: MediaQuery.of(context).size.width * 0.29,
+                                child: AutoSizeText('Periode Opname',
                                     style: TextStyle(
                                         fontFamily:
                                             GoogleFonts.poppins().fontFamily,
                                         fontSize: 12,
                                         color: Colors.white)),
                               ),
-                              Text(': 12 to 26 May 2024',
+                              AutoSizeText(': 12 to 26 May 2024',
                                   style: TextStyle(
                                       fontFamily:
                                           GoogleFonts.poppins().fontFamily,
@@ -224,15 +223,15 @@ class _DashboardDetailScreenState extends State<DashboardDetailScreen> {
                           Row(
                             children: [
                               SizedBox(
-                                width: 115,
-                                child: Text('Total Asset Opname',
+                                width: MediaQuery.of(context).size.width * 0.29,
+                                child: AutoSizeText('Total Asset Opname',
                                     style: TextStyle(
                                         fontFamily:
                                             GoogleFonts.poppins().fontFamily,
                                         fontSize: 12,
                                         color: Colors.white)),
                               ),
-                              Text(': 300',
+                              AutoSizeText(': 300',
                                   style: TextStyle(
                                       fontFamily:
                                           GoogleFonts.poppins().fontFamily,
@@ -243,15 +242,15 @@ class _DashboardDetailScreenState extends State<DashboardDetailScreen> {
                           Row(
                             children: [
                               SizedBox(
-                                width: 115,
-                                child: Text('Company',
+                                width: MediaQuery.of(context).size.width * 0.29,
+                                child: AutoSizeText('Company',
                                     style: TextStyle(
                                         fontFamily:
                                             GoogleFonts.poppins().fontFamily,
                                         fontSize: 12,
                                         color: Colors.white)),
                               ),
-                              Text(': PT DEF',
+                              AutoSizeText(': PT DEF',
                                   style: TextStyle(
                                       fontFamily:
                                           GoogleFonts.poppins().fontFamily,
@@ -272,13 +271,13 @@ class _DashboardDetailScreenState extends State<DashboardDetailScreen> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text('Today ',
+                AutoSizeText('Today ',
                     style: TextStyle(
                         fontFamily: GoogleFonts.poppins().fontFamily,
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                         color: Colors.white)),
-                Text('10/10',
+                AutoSizeText('10/10',
                     style: TextStyle(
                         fontFamily: GoogleFonts.poppins().fontFamily,
                         fontSize: 14,
@@ -330,13 +329,13 @@ class _DashboardDetailScreenState extends State<DashboardDetailScreen> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Asset Code - Asset Name',
+                            AutoSizeText('Asset Code - Asset Name',
                                 style: TextStyle(
                                     fontFamily:
                                         GoogleFonts.poppins().fontFamily,
                                     fontSize: 15,
                                     color: Colors.white)),
-                            Text('Location : Jagakarsa',
+                            AutoSizeText('Location : Jagakarsa',
                                 style: TextStyle(
                                     fontFamily:
                                         GoogleFonts.poppins().fontFamily,

@@ -113,7 +113,7 @@ class _OtpLoginScreenState extends State<OtpLoginScreen> {
                     ),
                   ),
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.05),
                 Directionality(
                   textDirection: TextDirection.ltr,
                   child: Pinput(
@@ -135,10 +135,10 @@ class _OtpLoginScreenState extends State<OtpLoginScreen> {
                         });
                       }
                     },
-                    separator: const SizedBox(width: 16),
+                    separator: const SizedBox(width: 8),
                   ),
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.04),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
                   child: Row(
@@ -207,7 +207,7 @@ class _OtpLoginScreenState extends State<OtpLoginScreen> {
                     ],
                   ),
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.12),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.1),
                 BlocListener(
                     bloc: validateOtpBloc,
                     listener: (_, ValidateOtpState state) {
